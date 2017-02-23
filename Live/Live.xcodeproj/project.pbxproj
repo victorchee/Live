@@ -12,7 +12,51 @@
 		F05E78391E5DB6510085AAD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F05E78371E5DB6510085AAD3 /* Main.storyboard */; };
 		F05E783B1E5DB6510085AAD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F05E783A1E5DB6510085AAD3 /* Assets.xcassets */; };
 		F05E783E1E5DB6510085AAD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F05E783C1E5DB6510085AAD3 /* LaunchScreen.storyboard */; };
+		F05E78761E5DBAFB0085AAD3 /* RTMP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F05E786D1E5DBAFB0085AAD3 /* RTMP.framework */; };
+		F05E787D1E5DBAFB0085AAD3 /* RTMPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E787C1E5DBAFB0085AAD3 /* RTMPTests.swift */; };
+		F05E787F1E5DBAFB0085AAD3 /* RTMP.h in Headers */ = {isa = PBXBuildFile; fileRef = F05E786F1E5DBAFB0085AAD3 /* RTMP.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F05E78821E5DBAFB0085AAD3 /* RTMP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F05E786D1E5DBAFB0085AAD3 /* RTMP.framework */; };
+		F05E78831E5DBAFB0085AAD3 /* RTMP.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F05E786D1E5DBAFB0085AAD3 /* RTMP.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F05E788E1E5F16DD0085AAD3 /* RTMPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E788D1E5F16DD0085AAD3 /* RTMPSocket.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F05E78771E5DBAFB0085AAD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F05E78281E5DB6500085AAD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F05E786C1E5DBAFB0085AAD3;
+			remoteInfo = RTMP;
+		};
+		F05E78791E5DBAFB0085AAD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F05E78281E5DB6500085AAD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F05E782F1E5DB6500085AAD3;
+			remoteInfo = Live;
+		};
+		F05E78801E5DBAFB0085AAD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F05E78281E5DB6500085AAD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F05E786C1E5DBAFB0085AAD3;
+			remoteInfo = RTMP;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F05E78891E5DBAFB0085AAD3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F05E78831E5DBAFB0085AAD3 /* RTMP.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F05E78301E5DB6510085AAD3 /* Live.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Live.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,6 +66,13 @@
 		F05E783A1E5DB6510085AAD3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F05E783D1E5DB6510085AAD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F05E783F1E5DB6510085AAD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F05E786D1E5DBAFB0085AAD3 /* RTMP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RTMP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F05E786F1E5DBAFB0085AAD3 /* RTMP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTMP.h; sourceTree = "<group>"; };
+		F05E78701E5DBAFB0085AAD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F05E78751E5DBAFB0085AAD3 /* RTMPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RTMPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F05E787C1E5DBAFB0085AAD3 /* RTMPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTMPTests.swift; sourceTree = "<group>"; };
+		F05E787E1E5DBAFB0085AAD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F05E788D1E5F16DD0085AAD3 /* RTMPSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPSocket.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +80,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F05E78821E5DBAFB0085AAD3 /* RTMP.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F05E78691E5DBAFB0085AAD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F05E78721E5DBAFB0085AAD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F05E78761E5DBAFB0085AAD3 /* RTMP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				F05E78321E5DB6510085AAD3 /* Live */,
+				F05E786E1E5DBAFB0085AAD3 /* RTMP */,
+				F05E787B1E5DBAFB0085AAD3 /* RTMPTests */,
 				F05E78311E5DB6510085AAD3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -47,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				F05E78301E5DB6510085AAD3 /* Live.app */,
+				F05E786D1E5DBAFB0085AAD3 /* RTMP.framework */,
+				F05E78751E5DBAFB0085AAD3 /* RTMPTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,7 +135,37 @@
 			path = Live;
 			sourceTree = "<group>";
 		};
+		F05E786E1E5DBAFB0085AAD3 /* RTMP */ = {
+			isa = PBXGroup;
+			children = (
+				F05E786F1E5DBAFB0085AAD3 /* RTMP.h */,
+				F05E788D1E5F16DD0085AAD3 /* RTMPSocket.swift */,
+				F05E78701E5DBAFB0085AAD3 /* Info.plist */,
+			);
+			path = RTMP;
+			sourceTree = "<group>";
+		};
+		F05E787B1E5DBAFB0085AAD3 /* RTMPTests */ = {
+			isa = PBXGroup;
+			children = (
+				F05E787C1E5DBAFB0085AAD3 /* RTMPTests.swift */,
+				F05E787E1E5DBAFB0085AAD3 /* Info.plist */,
+			);
+			path = RTMPTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F05E786A1E5DBAFB0085AAD3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F05E787F1E5DBAFB0085AAD3 /* RTMP.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		F05E782F1E5DB6500085AAD3 /* Live */ = {
@@ -74,15 +175,54 @@
 				F05E782C1E5DB6500085AAD3 /* Sources */,
 				F05E782D1E5DB6500085AAD3 /* Frameworks */,
 				F05E782E1E5DB6500085AAD3 /* Resources */,
+				F05E78891E5DBAFB0085AAD3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F05E78811E5DBAFB0085AAD3 /* PBXTargetDependency */,
 			);
 			name = Live;
 			productName = Live;
 			productReference = F05E78301E5DB6510085AAD3 /* Live.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F05E786C1E5DBAFB0085AAD3 /* RTMP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F05E78881E5DBAFB0085AAD3 /* Build configuration list for PBXNativeTarget "RTMP" */;
+			buildPhases = (
+				F05E78681E5DBAFB0085AAD3 /* Sources */,
+				F05E78691E5DBAFB0085AAD3 /* Frameworks */,
+				F05E786A1E5DBAFB0085AAD3 /* Headers */,
+				F05E786B1E5DBAFB0085AAD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RTMP;
+			productName = RTMP;
+			productReference = F05E786D1E5DBAFB0085AAD3 /* RTMP.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F05E78741E5DBAFB0085AAD3 /* RTMPTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F05E788A1E5DBAFB0085AAD3 /* Build configuration list for PBXNativeTarget "RTMPTests" */;
+			buildPhases = (
+				F05E78711E5DBAFB0085AAD3 /* Sources */,
+				F05E78721E5DBAFB0085AAD3 /* Frameworks */,
+				F05E78731E5DBAFB0085AAD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F05E78781E5DBAFB0085AAD3 /* PBXTargetDependency */,
+				F05E787A1E5DBAFB0085AAD3 /* PBXTargetDependency */,
+			);
+			name = RTMPTests;
+			productName = RTMPTests;
+			productReference = F05E78751E5DBAFB0085AAD3 /* RTMPTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -97,6 +237,16 @@
 					F05E782F1E5DB6500085AAD3 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
+					};
+					F05E786C1E5DBAFB0085AAD3 = {
+						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
+					F05E78741E5DBAFB0085AAD3 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = F05E782F1E5DB6500085AAD3;
 					};
 				};
 			};
@@ -114,6 +264,8 @@
 			projectRoot = "";
 			targets = (
 				F05E782F1E5DB6500085AAD3 /* Live */,
+				F05E786C1E5DBAFB0085AAD3 /* RTMP */,
+				F05E78741E5DBAFB0085AAD3 /* RTMPTests */,
 			);
 		};
 /* End PBXProject section */
@@ -129,6 +281,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F05E786B1E5DBAFB0085AAD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F05E78731E5DBAFB0085AAD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -141,7 +307,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F05E78681E5DBAFB0085AAD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F05E788E1E5F16DD0085AAD3 /* RTMPSocket.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F05E78711E5DBAFB0085AAD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F05E787D1E5DBAFB0085AAD3 /* RTMPTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F05E78781E5DBAFB0085AAD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F05E786C1E5DBAFB0085AAD3 /* RTMP */;
+			targetProxy = F05E78771E5DBAFB0085AAD3 /* PBXContainerItemProxy */;
+		};
+		F05E787A1E5DBAFB0085AAD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F05E782F1E5DB6500085AAD3 /* Live */;
+			targetProxy = F05E78791E5DBAFB0085AAD3 /* PBXContainerItemProxy */;
+		};
+		F05E78811E5DBAFB0085AAD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F05E786C1E5DBAFB0085AAD3 /* RTMP */;
+			targetProxy = F05E78801E5DBAFB0085AAD3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F05E78371E5DB6510085AAD3 /* Main.storyboard */ = {
@@ -259,6 +459,7 @@
 		F05E78431E5DB6510085AAD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Live/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -271,12 +472,84 @@
 		F05E78441E5DB6510085AAD3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Live/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.Live;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		F05E78841E5DBAFB0085AAD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = RTMP/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.RTMP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F05E78851E5DBAFB0085AAD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = RTMP/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.RTMP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F05E78861E5DBAFB0085AAD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = RTMPTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.RTMPTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Live.app/Live";
+			};
+			name = Debug;
+		};
+		F05E78871E5DBAFB0085AAD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = RTMPTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.RTMPTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Live.app/Live";
 			};
 			name = Release;
 		};
@@ -297,6 +570,23 @@
 			buildConfigurations = (
 				F05E78431E5DB6510085AAD3 /* Debug */,
 				F05E78441E5DB6510085AAD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F05E78881E5DBAFB0085AAD3 /* Build configuration list for PBXNativeTarget "RTMP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F05E78841E5DBAFB0085AAD3 /* Debug */,
+				F05E78851E5DBAFB0085AAD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F05E788A1E5DBAFB0085AAD3 /* Build configuration list for PBXNativeTarget "RTMPTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F05E78861E5DBAFB0085AAD3 /* Debug */,
+				F05E78871E5DBAFB0085AAD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
