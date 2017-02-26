@@ -13,6 +13,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let rtmpUrl = "rtmp://192.168.0.103:1935/hls/stream"
+        let client = LivePublishClient()
+        client.startPublish(toUrl: rtmpUrl)
+        
+        let preview = client.videoPreviewView
+        preview.frame = view.bounds
+        view.addSubview(preview)
     }
 
     override func didReceiveMemoryWarning() {
