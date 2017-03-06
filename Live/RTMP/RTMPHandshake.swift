@@ -48,7 +48,7 @@ class RTMPHandshake {
         // S0块：1字节，表示服务器选择的RTMP版本，一般是0x03。
         // S1块：1536字节，包括4字节时间戳，4字节0x00，1528字节随机数。
         // S2块：1536字节，包括4字节c1的时间戳，4字节s1的时间戳，1528字节c1随机数
-        socket.read(&s0s1s2, maxLength: 3073)
+        socket.read(&s0s1s2, maxLength: s0s1s2.count)
         
         // Send 1536B C2, C2 same with S1
         let c2Chunk = Array(s0s1s2[1...1536])

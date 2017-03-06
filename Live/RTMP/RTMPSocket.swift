@@ -105,49 +105,49 @@ final class RTMPSocket: NSObject {
     }
     
     private func write(buffer: UnsafePointer<UInt8>, bufferLength: Int) {
-        var totalBytesHasWrite = 0
+        var writeBytesCount = 0
         while true {
             guard let outputStream = self.outputStream else { return }
-            let writeLength = outputStream.write(buffer.advanced(by: totalBytesHasWrite), maxLength: bufferLength - totalBytesHasWrite)
+            let writeLength = outputStream.write(buffer.advanced(by: writeBytesCount), maxLength: bufferLength - writeBytesCount)
             if writeLength < 0 {
                 // Data write error
                 break
             }
-            totalBytesHasWrite += writeLength
+            writeBytesCount += writeLength
             totalOutputBytes += writeLength
             print("socket has write \(totalOutputBytes) bytes")
             
-            if bufferLength == totalBytesHasWrite { break }
+            if bufferLength == writeBytesCount { break }
         }
     }
     
     func read3Bytes() -> [UInt8] {
         var buffer = [UInt8](repeating: 0x00, count: 3)
-        self.read(&buffer, maxLength: 3)
+        self.read(&buffer, maxLength: buffer.count)
         return buffer
     }
     
     func read() -> UInt8 {
         var buffer = [UInt8](repeating: 0x00, count: 1)
-        self.read(&buffer, maxLength: 1)
+        self.read(&buffer, maxLength: buffer.count)
         return buffer[0]
     }
     
     func read(_ buffer: inout [UInt8], maxLength: Int) {
-        var readByteCount = 0
+        var readBytesCount = 0
         while true {
             guard let inputStream = self.inputStream else { return }
             if inputStream.hasBytesAvailable {
-                let length = inputStream.read(&buffer, maxLength: maxLength)
-                if length < 0 {
+                let readLength = inputStream.read(&buffer, maxLength: maxLength)
+                if readLength < 0 {
                     // Read error
                     break
                 }
-                readByteCount += length
-                totalInputBytes += length
+                readBytesCount += readLength
+                totalInputBytes += readLength
                 print("socket has read \(totalInputBytes) bytes")
                 
-                if readByteCount == maxLength { break }
+                if readBytesCount == maxLength { break }
             }
         }
     }
