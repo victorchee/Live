@@ -48,9 +48,7 @@ class RTMPMessage {
     var messageType: MessageType!
     /// 3B message payload length
     var payloadLength: Int {
-        get {
-            return payload.count
-        }
+        get { return payload.count }
         set { }
     }
     /// RTMP的时间戳在发送音视频之前都为零，开始发送音视频消息的时候只要保证时间戳是单增的基本就可以正常播放音视频
@@ -61,13 +59,14 @@ class RTMPMessage {
     /// Message payload
     var payload = [UInt8]()
     
+    // Empty initialize for subclass to override
     init() {}
     
     init(messageType: MessageType) {
         self.messageType = messageType
     }
     
-    static func create(messageType: MessageType) -> RTMPMessage? {
+    class func create(messageType: MessageType) -> RTMPMessage? {
         switch messageType {
         case .SetChunkSize:
             return RTMPSetChunkSizeMessage()
@@ -336,9 +335,7 @@ final class RTMPAudioMessage: RTMPMessage {
     }
     
     override var payload: [UInt8] {
-        get {
-            return super.payload
-        }
+        get { return super.payload }
         set {
             guard super.payload != newValue else { return }
             super.payload = newValue
@@ -359,9 +356,7 @@ final class RTMPVideoMessage: RTMPMessage {
     }
     
     override var payload: [UInt8] {
-        get {
-            return super.payload
-        }
+        get { return super.payload }
         set {
             guard super.payload != newValue else { return }
             super.payload = newValue

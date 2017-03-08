@@ -60,7 +60,7 @@ class RTMPStream {
         let videoMessage = RTMPVideoMessage(videoBuffer: videoBuffer, messageStreamID: RTMPStream.messageStreamID)
         videoMessage.timestamp = timestamp
         
-        let chunkType = isFirstVideoMessage ? ChunkMessageHeaderType.Type0 : .Type1
+        let chunkType = isFirstVideoMessage ? ChunkType.Type0 : .Type1
         
         socket.write(message: videoMessage, chunkType: chunkType, chunkStreamID: RTMPChunk.VideoChannel)
         isFirstVideoMessage = false
@@ -70,7 +70,7 @@ class RTMPStream {
         let audioMessage = RTMPAudioMessage(audioBuffer: audioBuffer, messageStreamID: RTMPStream.messageStreamID)
         audioMessage.timestamp = timestamp
         
-        let chunkType = isFirstAudioMessage ? ChunkMessageHeaderType.Type0 : .Type1
+        let chunkType = isFirstAudioMessage ? ChunkType.Type0 : .Type1
         
         socket.write(message: audioMessage, chunkType: chunkType, chunkStreamID: RTMPChunk.AudioChannel)
         isFirstAudioMessage = false
