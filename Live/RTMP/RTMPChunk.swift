@@ -18,6 +18,16 @@ enum ChunkType: UInt8 {
     case Type2
     /// 0字节，它表示这个chunk的Message Header和上一个是完全相同的，自然就不用再传输一遍了。当它跟在Type＝0的chunk后面时，表示和前一个chunk的时间戳都是相同的。什么时候连时间戳都相同呢？就是一个Message拆分成了多个chunk，这个chunk和上一个chunk同属于一个Message。而当它跟在Type＝1或者Type＝2的chunk后面时，表示和前一个chunk的时间戳的差是相同的。比如第一个chunk的Type＝0，timestamp＝100，第二个chunk的Type＝2，timestamp delta＝20，表示时间戳为100+20=120，第三个chunk的Type＝3，表示timestamp delta＝20，时间戳为120+20=140
     case Type3
+    
+    func createBasicHeader(_ streamID: UInt16) -> [UInt8] {
+        if streamID <= 63 {
+            return [rawValue << 6 | UInt8(streamID)]
+        } else if streamID <= 319 {
+            return [rawValue << 6 | 0b00000000, UInt8(streamID - 64)]
+        } else {
+            return [rawValue << 6 | 0b00111111] + (streamID - 64).bigEndian.bytes
+        }
+    }
 }
 
 /// 消息分块、接受消息
@@ -62,14 +72,7 @@ final class RTMPChunk {
         var buffer = [UInt8]()
         
         // Basic header, just use chunkstream id < 64
-        switch chunkType {
-        case .Type0:
-            buffer += [0x00 << 6 | UInt8(chunkStreamID & 0x3f)]
-        case .Type1:
-            buffer += [0x01 << 6 | UInt8(chunkStreamID & 0x3f)]
-        default:
-            break
-        }
+        buffer += chunkType.createBasicHeader(chunkStreamID)
         
         // Message header
         buffer += (message.timestamp >= 0xffffff ? [0xff, 0xff, 0xff] : message.timestamp.bigEndian.bytes[1...3]) // 3B timestamp
