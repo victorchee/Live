@@ -35,12 +35,12 @@ class RTMPConnector {
         object.setProperties(key: "videoFunction", value: 1);
         command.commandObjects.append(object)
         
-        socket.write(message: command, chunkType: .Type0, chunkStreamID: RTMPChunk.CommandChannel)
+        socket.write(message: command, chunkType: RTMPChunk.ChunkType.zero, chunkStreamID: RTMPChunk.CommandChannel)
         
         // Set client out chunk size 1024*8
         socket.outChunkSize = 60*1000
         let setChunkSize = RTMPSetChunkSizeMessage(chunkSize: socket.outChunkSize)
-        socket.write(message: setChunkSize, chunkType: .Type0, chunkStreamID: RTMPChunk.ControlChannel)
+        socket.write(message: setChunkSize, chunkType: RTMPChunk.ChunkType.zero, chunkStreamID: RTMPChunk.ControlChannel)
         
         if messageReceiver.expectCommandMessage(transactionID: 0x01) == nil {
             // Error
@@ -55,18 +55,18 @@ class RTMPConnector {
         let releaseStream = RTMPCommandMessage(commandName: "releaseStream", transactionID: 2, messageStreamID: 0)
         releaseStream.commandObjects.append(Amf0Null())
         releaseStream.commandObjects.append(Amf0String(value: socket.stream))
-        socket.write(message: releaseStream, chunkType: .Type1, chunkStreamID: RTMPChunk.CommandChannel)
+        socket.write(message: releaseStream, chunkType: RTMPChunk.ChunkType.one, chunkStreamID: RTMPChunk.CommandChannel)
         
         let FCPublish = RTMPCommandMessage(commandName: "FCPublish", transactionID: 0x03, messageStreamID: 0)
         FCPublish.timestamp = 0
         FCPublish.commandObjects.append(Amf0Null())
         FCPublish.commandObjects.append(Amf0String(value: socket.stream))
-        socket.write(message: FCPublish, chunkType: .Type1, chunkStreamID: RTMPChunk.CommandChannel)
+        socket.write(message: FCPublish, chunkType: RTMPChunk.ChunkType.one, chunkStreamID: RTMPChunk.CommandChannel)
         
         let createStream = RTMPCommandMessage(commandName: "createStream", transactionID: 0x04, messageStreamID: 0)
         createStream.timestamp = 0
         createStream.commandObjects.append(Amf0Null())
-        socket.write(message: createStream, chunkType: .Type1, chunkStreamID: RTMPChunk.CommandChannel)
+        socket.write(message: createStream, chunkType: RTMPChunk.ChunkType.one, chunkStreamID: RTMPChunk.CommandChannel)
         
         guard let result = messageReceiver.expectCommandMessage(transactionID: 0x04) else {
             // Error

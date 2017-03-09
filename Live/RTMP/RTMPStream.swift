@@ -25,7 +25,7 @@ class RTMPStream {
         commandMessage.commandObjects.append(Amf0String(value: socket.stream))
         commandMessage.commandObjects.append(Amf0String(value: socket.app))
         
-        socket.write(message: commandMessage, chunkType: .Type0, chunkStreamID: 0x08)
+        socket.write(message: commandMessage, chunkType: RTMPChunk.ChunkType.zero, chunkStreamID: 0x08)
     }
     
     func setMetaData(_ metaData: [String: Any]) {
@@ -37,7 +37,7 @@ class RTMPStream {
         }
         dataMessage.objects.append(ecmaArray)
         
-        socket.write(message: dataMessage, chunkType: .Type0, chunkStreamID: 0x04)
+        socket.write(message: dataMessage, chunkType: RTMPChunk.ChunkType.zero, chunkStreamID: 0x04)
     }
     
     func FCUnpublish() {
@@ -45,7 +45,7 @@ class RTMPStream {
         commandMessage.commandObjects.append(Amf0Null())
         commandMessage.commandObjects.append(Amf0String(value: socket.stream))
         
-        socket.write(message: commandMessage, chunkType: .Type1, chunkStreamID: 0x03)
+        socket.write(message: commandMessage, chunkType: RTMPChunk.ChunkType.one, chunkStreamID: 0x03)
     }
     
     func deleteStream() {
@@ -53,14 +53,14 @@ class RTMPStream {
         commandMessage.commandObjects.append(Amf0Null())
         commandMessage.commandObjects.append(Amf0Number(value: RTMPStream.messageStreamID))
         
-        socket.write(message: commandMessage, chunkType: .Type1, chunkStreamID: 0x03)
+        socket.write(message: commandMessage, chunkType: RTMPChunk.ChunkType.one, chunkStreamID: 0x03)
     }
     
     func publishVideo(_ videoBuffer: [UInt8], timestamp: UInt32) {
         let videoMessage = RTMPVideoMessage(videoBuffer: videoBuffer, messageStreamID: RTMPStream.messageStreamID)
         videoMessage.timestamp = timestamp
         
-        let chunkType = isFirstVideoMessage ? ChunkType.Type0 : .Type1
+        let chunkType = isFirstVideoMessage ? RTMPChunk.ChunkType.zero : RTMPChunk.ChunkType.one
         
         socket.write(message: videoMessage, chunkType: chunkType, chunkStreamID: RTMPChunk.VideoChannel)
         isFirstVideoMessage = false
@@ -70,7 +70,7 @@ class RTMPStream {
         let audioMessage = RTMPAudioMessage(audioBuffer: audioBuffer, messageStreamID: RTMPStream.messageStreamID)
         audioMessage.timestamp = timestamp
         
-        let chunkType = isFirstAudioMessage ? ChunkType.Type0 : .Type1
+        let chunkType = isFirstAudioMessage ? RTMPChunk.ChunkType.zero : RTMPChunk.ChunkType.one
         
         socket.write(message: audioMessage, chunkType: chunkType, chunkStreamID: RTMPChunk.AudioChannel)
         isFirstAudioMessage = false

@@ -85,7 +85,7 @@ final class RTMPSocket: NSObject {
         }
     }
     
-    func write(message: RTMPMessage, chunkType: ChunkType, chunkStreamID: UInt16) {
+    func write(message: RTMPMessage, chunkType: RTMPChunk.ChunkType, chunkStreamID: UInt16) {
         guard let chunkBuffer = RTMPChunk.splitMessage(message, chunkSize: outChunkSize, chunkType: chunkType, chunkStreamID: chunkStreamID) else { return }
         self.write(bytes: chunkBuffer)
     }
