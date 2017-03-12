@@ -36,7 +36,12 @@ open class RTMPPublishClient {
         socket = RTMPSocket(rtmpURL: url)
     }
     
-    // 整个RTMP连接过程
+    /**
+        整个RTMP连接过程分为3步：
+        1. Connect
+        2. Create Stream
+        3. Publishing Content
+    */
     open func connect() {
         publisherQueue.async {
             self.socket.connect()

@@ -29,8 +29,6 @@ enum MessageType: UInt8 {
 
 class RTMPMessage {
     /**
-     0 1 2 3
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      | Message Type  | Payload length                                |
      | (1 byte)      | (3 bytes)                                     |
@@ -53,7 +51,7 @@ class RTMPMessage {
     }
     /// RTMP的时间戳在发送音视频之前都为零，开始发送音视频消息的时候只要保证时间戳是单增的基本就可以正常播放音视频
     /// 4B timestamp
-    var timestamp: UInt32 = 0
+    var timestamp: UInt32 = 0 // 毫秒
     /// 4B stream id
     var messageStreamID: UInt32 = 0
     /// Message payload
@@ -94,7 +92,13 @@ class RTMPMessage {
     }
 }
 
+/// 设置块的大小，通知对端用使用新的块大小，共4B
 final class RTMPSetChunkSizeMessage: RTMPMessage {
+    /* 默认为128B，客户端或服务端可以修改此值，并用该消息通知另一端，不能小于1B，通常不小于128B。每个方向的大小是独立的。
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     |0|                        chunk size                           |
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+    */
     var chunkSize = 0
     
     override init() {
@@ -120,7 +124,13 @@ final class RTMPSetChunkSizeMessage: RTMPMessage {
     }
 }
 
+/// 当消息包分成多个chunk，已经发送若干包，若不再发送，就是Abort Message,通知接收端终止接收消息，并且丢弃已经接收的Chunk，共4B
 final class RTMPAbortMessage: RTMPMessage {
+    /* 应用可能在关闭的时候发送该消息，用来表明后面的消息没有必要继续处理了
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     |                       chunk stream id                         |
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     */
     private var chunkStreamID: Int32!
     
     override init() {
@@ -146,16 +156,22 @@ final class RTMPAbortMessage: RTMPMessage {
     }
 }
 
+/// 确认消息，客户端或服务端在接收到数量与Window size相等的字节后发送确认消息到对方。Window size是在没有接收到接收者发送的确认消息之前发送的字节数的最大值。服务端在建立连接之后发送窗口大小。共4B
 final class RTMPAcknowledgementMessage: RTMPMessage {
-    var sequence: Int32!
+    /** 到当前时间位置收到的总字节数
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     |                       sequence number                         |
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     */
+    var sequenceNumber: Int32!
     
     override init() {
         super.init(messageType: .Acknowledgement)
     }
     
-    init(sequence: Int32) {
+    init(sequenceNumber: Int32) {
         super.init(messageType: .Acknowledgement)
-        self.sequence = sequence
+        self.sequenceNumber = sequenceNumber
     }
     
     override var payload: [UInt8] {
@@ -163,16 +179,22 @@ final class RTMPAcknowledgementMessage: RTMPMessage {
             guard super.payload.isEmpty else {
                 return super.payload
             }
-            super.payload += sequence.bigEndian.bytes
+            super.payload += sequenceNumber.bigEndian.bytes
             return super.payload
         }
         set {
-            sequence = Int32(bytes: newValue).bigEndian
+            sequenceNumber = Int32(bytes: newValue).bigEndian
         }
     }
 }
 
+///  客户端或服务端发送该消息来通知对端发送确认消息所使用的Window Size，并等待接受端发送Acknowledgement消息，接受端在接受到Window Size字节数据后需要发送Acknowledgement消息确认
 final class RTMPWindowAckSizeMessage: RTMPMessage {
+    /** Window size就是一次发送数据，接收方可不作应答的最大长度
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     |                 acknowledgement window size                   |
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     */
     var windowAckSize: UInt32!
     
     override init() {
@@ -199,10 +221,19 @@ final class RTMPWindowAckSizeMessage: RTMPMessage {
     }
 }
 
+/// 客户端或服务端发送该消息来限制对端的输出带宽。接收端收到消息后，通过将已发送但未被确认的数据总数限制为该消息指定的Widnow Size，来实现限制输出带宽的目的。如果Window Size与上一个不同，则该消息的接收端应该向消息的发送端发送Window Size确认消息。
 final class RTMPSetPeerBandwidthMessage: RTMPMessage {
+    /**
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     |                 acknowledgement window size                   |  limit type   |
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     */
     enum LimitType: UInt8 {
+        /// 消息接收端应该将输出带宽限制为指定Window Size大小
         case Hard = 0x00
+        /// 消息接收端应该将输出带宽限制为指定Window Size和当前的较小的值
         case Soft = 0x01
+        /// 如果上一个消息的限制类型为Hard，则该消息同样为Hard，否则抛弃该消息
         case Dynamic = 0x02
         case Unknown = 0xFF
     }

@@ -51,13 +51,13 @@ final class RTMPChunk {
      |fmt| stream id |
      +-+-+-+-+-+-+-+-+
      64~319
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
      |fmt|     0     |   stream id   |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
      64~65599
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |fmt|     1     |                   stream id                   |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+     |fmt|     1     |                    stream id                  |
+     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
      */
     /// RTMP 的Chunk Steam ID是用来区分某一个chunk是属于哪一个message的 ,0和1是保留的。每次在发送一个不同类型的RTMP消息时都要有不用的chunk stream ID, 如上一个Message 是command类型的，之后要发送视频类型的消息，视频消息的chunk stream ID 要保证和上面 command类型的消息不同。每一种消息类型的起始chunk 的类型必须是 Type_0 类型的，表明这是一个新的消息的起始
     var chunkStreamID: UInt16 = 0
@@ -69,12 +69,13 @@ final class RTMPChunk {
     
     /// Split message into chunks
     class func splitMessage(_ message: RTMPMessage, chunkSize: Int, chunkType: ChunkType, chunkStreamID: UInt16) -> [UInt8]? {
+        print(chunkType);
         var buffer = [UInt8]()
         
         // Basic header, just use chunkstream id < 64
         buffer += chunkType.createBasicHeader(chunkStreamID)
         
-        // Message header
+        // Message header（下面只处理了zero和one两种情况，two和three未处理）
         buffer += (message.timestamp >= 0xffffff ? [0xff, 0xff, 0xff] : message.timestamp.bigEndian.bytes[1...3]) // 3B timestamp
         buffer += UInt32(message.payloadLength).bigEndian.bytes[1...3] // 3B payload length
         buffer.append(message.messageType.rawValue) // 1B message type
