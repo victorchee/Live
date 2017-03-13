@@ -141,11 +141,11 @@ class RTMPReceiver {
     
     func receiveMessage() -> RTMPMessage? {
         guard let message = receiveInterlacedMessage() else { return nil }
-        onReceiveMessage(message)
+        handleReceivedMessage(message)
         return message
     }
     
-    func onReceiveMessage(_ message: RTMPMessage) {
+    func handleReceivedMessage(_ message: RTMPMessage) {
         // TODO: send ack when total byte > 25000000
         switch message.messageType! {
         case .WindowAckSize:

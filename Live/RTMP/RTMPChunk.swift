@@ -21,6 +21,20 @@ final class RTMPChunk {
         /// 0字节，它表示这个chunk的Message Header和上一个是完全相同的，自然就不用再传输一遍了。当它跟在Type＝0的chunk后面时，表示和前一个chunk的时间戳都是相同的。什么时候连时间戳都相同呢？就是一个Message拆分成了多个chunk，这个chunk和上一个chunk同属于一个Message。而当它跟在Type＝1或者Type＝2的chunk后面时，表示和前一个chunk的时间戳的差是相同的。比如第一个chunk的Type＝0，timestamp＝100，第二个chunk的Type＝2，timestamp delta＝20，表示时间戳为100+20=120，第三个chunk的Type＝3，表示timestamp delta＝20，时间戳为120+20=140
         case three
         
+        /** chunkStreamID
+         2~63
+         +-+-+-+-+-+-+-+-+
+         |fmt| stream id |
+         +-+-+-+-+-+-+-+-+
+         64~319
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+         |fmt|     0     |   stream id   |
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+         64~65599
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+         |fmt|     1     |                    stream id                  |
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+         */
         func createBasicHeader(_ streamID: UInt16) -> [UInt8] {
             if streamID <= 63 {
                 return [rawValue << 6 | UInt8(streamID)]
@@ -45,20 +59,6 @@ final class RTMPChunk {
     /// Chunk basic header（1～3B）
     /// chunkType决定了消息头的编码格式（2b）
     var chunkType = ChunkType.zero // chunk type -> fmt
-    /**chunkStreamID
-     2~63
-     +-+-+-+-+-+-+-+-+
-     |fmt| stream id |
-     +-+-+-+-+-+-+-+-+
-     64~319
-     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
-     |fmt|     0     |   stream id   |
-     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
-     64~65599
-     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
-     |fmt|     1     |                    stream id                  |
-     +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
-     */
     /// RTMP 的Chunk Steam ID是用来区分某一个chunk是属于哪一个message的 ,0和1是保留的。每次在发送一个不同类型的RTMP消息时都要有不用的chunk stream ID, 如上一个Message 是command类型的，之后要发送视频类型的消息，视频消息的chunk stream ID 要保证和上面 command类型的消息不同。每一种消息类型的起始chunk 的类型必须是 Type_0 类型的，表明这是一个新的消息的起始
     var chunkStreamID: UInt16 = 0
     
@@ -72,10 +72,39 @@ final class RTMPChunk {
         print(chunkType);
         var buffer = [UInt8]()
         
-        // Basic header, just use chunkstream id < 64
+        // Basic header
         buffer += chunkType.createBasicHeader(chunkStreamID)
         
         // Message header（下面只处理了zero和one两种情况，two和three未处理）
+        /*
+         zero
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|
+         |                   timestamp                   |
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|
+         |                 message length                |
+         |-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|
+         |message type id|
+         |-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+         |                      message stream id                        |
+         |-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+         
+         one
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|
+         |                timestamp delta                |
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|
+         |                 message length                |
+         |-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|
+         |message type id|
+         |-+-+-+-+-+-+-+-+
+         
+         two
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+         |                timestamp delta                |
+         +-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-+
+         
+         three
+         empty message header
+         */
         buffer += (message.timestamp >= 0xffffff ? [0xff, 0xff, 0xff] : message.timestamp.bigEndian.bytes[1...3]) // 3B timestamp
         buffer += UInt32(message.payloadLength).bigEndian.bytes[1...3] // 3B payload length
         buffer.append(message.messageType.rawValue) // 1B message type
@@ -90,6 +119,7 @@ final class RTMPChunk {
             buffer += message.timestamp.bigEndian.bytes
         }
         
+        // Chunk data
         if message.payloadLength < chunkSize {
             buffer += message.payload
         } else {
@@ -99,7 +129,8 @@ final class RTMPChunk {
                 buffer += message.payload[position..<(position+chunkSize)]
                 remainingCount -= chunkSize
                 position += chunkSize
-                buffer.append(UInt8(0xc0 | (chunkStreamID & 0x3f))) // chunk type 3 header
+                // 第一个chunk为zero，以后的chunk都为three
+                buffer += ChunkType.three.createBasicHeader(chunkStreamID)
             }
             buffer += message.payload[position..<(position+remainingCount)]
         }

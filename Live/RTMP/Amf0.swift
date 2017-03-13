@@ -24,6 +24,7 @@ class Amf0Data {
         case Amf0_Date              = 0x0b
         case Amf0_LongString        = 0x0c
         case Amf0_Unsupported       = 0x0d
+        /// Remoting, server to client only
         case Amf0_RecordSet         = 0x0e
         case Amf0_XmlDocument       = 0x0f
         case Amf0_TypedObject       = 0x10
@@ -33,12 +34,11 @@ class Amf0Data {
     }
     
     var dataInBytes = [UInt8]()
-    var dataLength: Int {
-        return dataInBytes.count
-    }
+    var dataLength: Int { return dataInBytes.count }
     
     static func create(_ inputStream: ByteArrayInputStream) -> Amf0Data? {
         guard let amfTypeRawValue = inputStream.read() else { return nil }
+        // 第一个Byte是AMF类型
         guard let amf0Type = Amf0DataType(rawValue: amfTypeRawValue) else { return nil }
         var amf0Data: Amf0Data
         switch amf0Type {
@@ -65,9 +65,7 @@ class Amf0Data {
         return amf0Data
     }
     
-    func decode(_ inputStream: ByteArrayInputStream) {
-        
-    }
+    func decode(_ inputStream: ByteArrayInputStream) { }
 }
 
 class Amf0Number: Amf0Data {
@@ -185,10 +183,12 @@ class Amf0String: Amf0Data {
             // 1B type
             super.dataInBytes.append(isLongString ? Amf0DataType.Amf0_LongString.rawValue : Amf0DataType.Amf0_String.rawValue)
             let stringInBytes = [UInt8](value.utf8)
-            // Value lenght
+            // Value length
             if isLongString {
+                // 4B, big endian
                 super.dataInBytes += UInt32(stringInBytes.count).bigEndian.bytes
             } else {
+                // 2B, big endian
                 super.dataInBytes += UInt16(stringInBytes.count).bigEndian.bytes
             }
             // Value in bytes
