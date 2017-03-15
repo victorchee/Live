@@ -31,7 +31,7 @@ class RTMPStream {
     func setMetaData(_ metaData: [String: Any]) {
         let dataMessage = RTMPDataMessage(type: "@setDataFrame", messageStreamID: RTMPStream.messageStreamID)
         dataMessage.objects.append(Amf0String(value: "onMetaData"))
-        let ecmaArray = Amf0Map()
+        let ecmaArray = Amf0ECMAArray()
         for key in metaData.keys {
             ecmaArray.setProperties(key: key, value: metaData[key] as Any)
         }

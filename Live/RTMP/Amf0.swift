@@ -13,24 +13,23 @@ class Amf0Data {
         case Amf0_Number            = 0x00
         case Amf0_Bool              = 0x01
         case Amf0_String            = 0x02
+        /// Dictionary<String, Any?>
         case Amf0_Object            = 0x03
-        case Amf0_MovieClip         = 0x04
+        case Amf0_MovieClip         = 0x04 // Reserved, not suppported
         case Amf0_Null              = 0x05
         case Amf0_Undefined         = 0x06
         case Amf0_Reference         = 0x07
-        case Amf0_Map               = 0x08
+        /// Map
+        case Amf0_ECMAArray         = 0x08
         case Amf0_ObjectEnd         = 0x09
-        case Amf0_Array             = 0x0a
+        case Amf0_StrictArray       = 0x0a
         case Amf0_Date              = 0x0b
         case Amf0_LongString        = 0x0c
         case Amf0_Unsupported       = 0x0d
-        /// Remoting, server to client only
-        case Amf0_RecordSet         = 0x0e
+        case Amf0_RecordSet         = 0x0e // Reserved, not supported
         case Amf0_XmlDocument       = 0x0f
         case Amf0_TypedObject       = 0x10
         case Amf0_AVMplushObject    = 0x11
-        case Amf0_Originstrictarray = 0x20
-        case Amf0_Invalid           = 0x3f
     }
     
     var dataInBytes = [UInt8]()
@@ -54,10 +53,12 @@ class Amf0Data {
             amf0Data = Amf0Null()
         case .Amf0_Undefined:
             amf0Data = Amf0Undefined()
-        case .Amf0_Map:
-            amf0Data = Amf0Map()
-        case .Amf0_Array:
-            amf0Data = Amf0Array()
+        case .Amf0_ECMAArray:
+            amf0Data = Amf0ECMAArray()
+        case .Amf0_StrictArray:
+            amf0Data = Amf0StrictArray()
+        case .Amf0_Date:
+            amf0Data = Amf0Date()
         default:
             return nil
         }
@@ -215,7 +216,7 @@ class Amf0String: Amf0Data {
             inputStream.read()
         }
         
-        let stringLength = NumberByteOperator.readUInt16(inputStream)
+        let stringLength = NumberByteOperator.readUInt16(inputStream) // 2B的长度数据
         var stringInBytes = [UInt8](repeating: 0x00, count: Int(stringLength))
         inputStream.read(&stringInBytes, maxLength: Int(stringLength))
         return String(bytes: stringInBytes, encoding: .utf8)
@@ -223,7 +224,8 @@ class Amf0String: Amf0Data {
 }
 
 class Amf0Object: Amf0Data {
-    var endMark: [UInt8] = [0x00, 0x00, 0x09]
+    /// 结尾
+    let endMark: [UInt8] = [0x00, 0x00, 0x09]
     var properties = [String: Amf0Data]()
     
     func setProperties(key: String, value: Any) {
@@ -251,8 +253,10 @@ class Amf0Object: Amf0Data {
             super.dataInBytes.append(Amf0DataType.Amf0_Object.rawValue)
             for (key, value) in properties {
                 let keyInBytes = [UInt8](key.utf8)
+                // Key
                 super.dataInBytes += UInt16(keyInBytes.count).bigEndian.bytes
                 super.dataInBytes += keyInBytes
+                // Value
                 super.dataInBytes += value.dataInBytes
             }
             super.dataInBytes += endMark
@@ -281,14 +285,21 @@ class Amf0Object: Amf0Data {
     }
 }
 
-class Amf0Array: Amf0Data {
+class Amf0StrictArray: Amf0Data {
     private var arrayItems = [Amf0Data]()
     override var dataInBytes: [UInt8] {
         get {
             guard super.dataInBytes.isEmpty else {
                 return super.dataInBytes
             }
-            /// TODO
+            // 1B type
+            super.dataInBytes.append(Amf0DataType.Amf0_StrictArray.rawValue)
+            // 4B count
+            super.dataInBytes += UInt32(arrayItems.count).bigEndian.bytes
+            // Items
+            for item in arrayItems {
+                super.dataInBytes += item.dataInBytes
+            }
             return super.dataInBytes
         }
         set {
@@ -306,7 +317,7 @@ class Amf0Array: Amf0Data {
     }
 }
 
-class Amf0Map: Amf0Object {
+class Amf0ECMAArray: Amf0Object {
     override var dataInBytes: [UInt8] {
         get {
             guard super.dataInBytes.isEmpty else {
@@ -314,7 +325,7 @@ class Amf0Map: Amf0Object {
             }
             
             // 1B type
-            super.dataInBytes.append(Amf0DataType.Amf0_Map.rawValue)
+            super.dataInBytes.append(Amf0DataType.Amf0_ECMAArray.rawValue)
             super.dataInBytes += UInt32(properties.count).bigEndian.bytes
             for (key, value) in properties {
                 super.dataInBytes += [UInt8](key.utf8)
@@ -347,5 +358,31 @@ class Amf0Undefined: Amf0Data {
     override func decode(_ inputStream: ByteArrayInputStream) {
         // 1B amf type has skipped
         // Amf type has been read, nothing still need to be decode
+    }
+}
+
+class Amf0Date: Amf0Data {
+    private var value: Date!
+    override var dataInBytes: [UInt8] {
+        get {
+            guard super.dataInBytes.isEmpty else {
+                return super.dataInBytes
+            }
+            
+            // 1B type
+            super.dataInBytes.append(Amf0DataType.Amf0_ECMAArray.rawValue)
+            super.dataInBytes += (value.timeIntervalSince1970 * 1000).bytes.reversed()
+            // 2B end
+            super.dataInBytes += [0x00, 0x00]
+            return super.dataInBytes
+        }
+        set {
+            super.dataInBytes = newValue
+        }
+    }
+    
+    override func decode(_ inputStream: ByteArrayInputStream) {
+        // 1B amf type has skipped
+        value = Date(timeIntervalSince1970: NumberByteOperator.readDouble(inputStream) / 1000)
     }
 }

@@ -20,27 +20,38 @@ extension ExpressibleByIntegerLiteral {
 }
 
 class NumberByteOperator {
+    static func readUInt8(_ inputStream: ByteArrayInputStream) -> UInt8 {
+        let size = MemoryLayout<UInt8>.size
+        var bytes = [UInt8](repeating:0x00, count:size)
+        inputStream.read(&bytes, maxLength:size)
+        return UInt8(bytes:bytes)
+    }
+    
     static func readUInt16(_ inputStream: ByteArrayInputStream) -> UInt16 {
-        var bytes = [UInt8](repeating: 0x00, count:2)
-        inputStream.read(&bytes, maxLength: 2)
-        return UInt16(bytes: bytes).bigEndian
+        let size = MemoryLayout<UInt16>.size
+        var bytes = [UInt8](repeating:0x00, count:size)
+        inputStream.read(&bytes, maxLength:size)
+        return UInt16(bytes:bytes).bigEndian
     }
     
     static func readUInt24(_ inputStream: ByteArrayInputStream) -> UInt32 {
-        var bytes = [UInt8](repeating: 0x00, count:3)
-        inputStream.read(&bytes, maxLength: 3)
-        return UInt32(bytes: [0x00] + bytes).bigEndian
+        let size = 3
+        var bytes = [UInt8](repeating:0x00, count:size)
+        inputStream.read(&bytes, maxLength:size)
+        return UInt32(bytes:[0x00] + bytes).bigEndian
     }
     
     static func readUInt32(_ inputStream: ByteArrayInputStream) -> UInt32 {
-        var bytes = [UInt8](repeating: 0x00, count:4)
-        inputStream.read(&bytes, maxLength: 4)
-        return UInt32(bytes: [0x00] + bytes).bigEndian
+        let size = MemoryLayout<UInt32>.size
+        var bytes = [UInt8](repeating:0x00, count:size)
+        inputStream.read(&bytes, maxLength:size)
+        return UInt32(bytes:[0x00] + bytes).bigEndian
     }
     
     static func readDouble(_ inputStream: ByteArrayInputStream) -> Double {
-        var bytes = [UInt8](repeating: 0x00, count:8)
-        inputStream.read(&bytes, maxLength: 8)
-        return Double(bytes: bytes.reversed())
+        let size = MemoryLayout<Double>.size
+        var bytes = [UInt8](repeating:0x00, count:size)
+        inputStream.read(&bytes, maxLength:size)
+        return Double(bytes:bytes.reversed())
     }
 }

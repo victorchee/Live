@@ -169,10 +169,10 @@ class RTMPReceiver {
                 if transactionID == message.transactionID {
                     return message
                 } else {
-                    // Drop enexpect message
+                    // Drop unexpect message
                 }
             } else {
-                // Drop enexpect message
+                // Drop unexpect message
             }
         }
     }

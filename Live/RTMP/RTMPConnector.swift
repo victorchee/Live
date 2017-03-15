@@ -52,7 +52,7 @@ class RTMPConnector {
     /// 创建RTMP流
     /// 客户端要向服务器发送一个releaseStream命令消息，之后是FCPublish命令消息，在之后是createStream命令消息。当发送完createStream消息之后，解析服务器返回的消息会得到一个stream ID, 这个ID也就是以后和服务器通信的 message stream ID, 一般返回的是1，不固定
     func createStream() {
-        let releaseStream = RTMPCommandMessage(commandName: "releaseStream", transactionID: 2, messageStreamID: 0)
+        let releaseStream = RTMPCommandMessage(commandName: "releaseStream", transactionID: 0x02, messageStreamID: 0)
         releaseStream.commandObjects.append(Amf0Null())
         releaseStream.commandObjects.append(Amf0String(value: socket.stream))
         socket.write(message: releaseStream, chunkType: RTMPChunk.ChunkType.one, chunkStreamID: RTMPChunk.CommandChannel)
