@@ -10,6 +10,7 @@ import Foundation
 
 class RTMPReceiver {
     private let socket: RTMPSocket
+    /// Key: chunk stream id, Value: chunk
     private var chunkStreams: [UInt16: RTMPChunk]!
     
     init(socket: RTMPSocket) {
@@ -17,7 +18,7 @@ class RTMPReceiver {
         self.chunkStreams = [UInt16: RTMPChunk]()
     }
     
-    final func receiveInterlacedMessage() -> RTMPMessage? {
+    final func readInterlacedMessage() -> RTMPMessage? {
         // Basic header fmt
         var fmt: UInt8 = 0
         var chunkStreamID: UInt16 = 0
@@ -32,20 +33,21 @@ class RTMPReceiver {
             // 1B chunk basic header
             let basicHeader = socket.read()
             
+            // 2b fmt
             fmt = (basicHeader >> 6) & 0x03
-            chunkStreamID = UInt16(basicHeader & 0x3f)
+            chunkStreamID = UInt16(basicHeader & 0x3f) // 2~7b
             
             // 2-63, 1B chunk header
             if chunkStreamID > 1 { return }
             
             // 64-319, 2B chunk header
             if chunkStreamID == 0 {
-                chunkStreamID = UInt16(socket.read()) + 64
+                chunkStreamID = UInt16(socket.read()) + 64 // second byte + 64
             } else if chunkStreamID == 1 {
                 // 64-65599, 3B chunk header
                 var idInBytes = [UInt8](repeating: 0x00, count: 2)
                 socket.read(&idInBytes, maxLength: 2)
-                chunkStreamID = UInt16(idInBytes[0] | (idInBytes[1] << 8)) + 64
+                chunkStreamID = UInt16((idInBytes[1] << 8) | idInBytes[0]) + 64 // third byte * 256 + second byte + 64
             } else {
                 // error
             }
@@ -140,7 +142,7 @@ class RTMPReceiver {
     }
     
     func receiveMessage() -> RTMPMessage? {
-        guard let message = receiveInterlacedMessage() else { return nil }
+        guard let message = readInterlacedMessage() else { return nil }
         handleReceivedMessage(message)
         return message
     }

@@ -38,7 +38,7 @@ class RTMPConnector {
         socket.write(message: command, chunkType: RTMPChunk.ChunkType.zero, chunkStreamID: RTMPChunk.CommandChannel)
         
         // Set client out chunk size 1024*8
-        socket.outChunkSize = 60*1000
+        socket.outChunkSize = 1024 * 8
         let setChunkSize = RTMPSetChunkSizeMessage(chunkSize: socket.outChunkSize)
         socket.write(message: setChunkSize, chunkType: RTMPChunk.ChunkType.zero, chunkStreamID: RTMPChunk.ControlChannel)
         
