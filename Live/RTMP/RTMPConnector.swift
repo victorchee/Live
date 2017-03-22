@@ -19,6 +19,7 @@ class RTMPConnector {
     
     /// 握手之后先发送一个AMF格式的connect命令消息
     func connectApp() {
+        // connect命令的事务ID必须为1
         let command = RTMPCommandMessage(commandName: "connect", transactionID: 0x01, messageStreamID: 0x00)
         let object = Amf0Object()
         object.setProperties(key: "app", value: socket.app)
@@ -37,16 +38,19 @@ class RTMPConnector {
         
         socket.write(message: command, chunkType: RTMPChunk.ChunkType.zero, chunkStreamID: RTMPChunk.CommandChannel)
         
+        // 发送完connect命令之后一般会发一个set chunk size消息来设置chunk size的大小，也可以不发
         // Set client out chunk size 1024*8
         socket.outChunkSize = 1024 * 8
         let setChunkSize = RTMPSetChunkSizeMessage(chunkSize: socket.outChunkSize)
         socket.write(message: setChunkSize, chunkType: RTMPChunk.ChunkType.zero, chunkStreamID: RTMPChunk.ControlChannel)
         
-        if messageReceiver.expectCommandMessage(transactionID: 0x01) == nil {
-            // Error
-            return
+        if let message = messageReceiver.expectCommandMessage(transactionID: 0x01) {
+            if message.commandName == "_result" {
+                print("App connect success")
+            } else if message.commandName == "_error" {
+                print("App connect refused")
+            }
         }
-        print("App conneect success")
     }
     
     /// 创建RTMP流

@@ -59,7 +59,7 @@ final class RTMPChunk {
     /// Chunk basic header（1～3B）
     /// chunkType决定了消息头的编码格式（2b）
     var chunkType = ChunkType.zero // chunk type -> fmt
-    /// RTMP 的Chunk Steam ID是用来区分某一个chunk是属于哪一个message的 ,0和1是保留的。每次在发送一个不同类型的RTMP消息时都要有不用的chunk stream ID, 如上一个Message 是command类型的，之后要发送视频类型的消息，视频消息的chunk stream ID 要保证和上面 command类型的消息不同。每一种消息类型的起始chunk 的类型必须是 Type_0 类型的，表明这是一个新的消息的起始
+    /// RTMP 的Chunk Steam ID是用来区分某一个chunk是属于哪一个message的 ,0和1是保留的。每次在发送一个不同类型的RTMP消息时都要有不用的chunk stream ID, 如上一个Message 是command类型的，之后要发送视频类型的消息，视频消息的chunk stream ID 要保证和上面 command类型的消息不同。每一种消息类型的起始chunk 的类型必须是 zero 类型的，表明这是一个新的消息的起始
     var chunkStreamID: UInt16 = 0
     
     /// Chunk message header

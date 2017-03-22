@@ -54,8 +54,6 @@ open class RTMPPublishClient {
             let connector = RTMPConnector(socket: self.socket)
             connector.connectApp()
             
-            // 发送完connect命令之后一般会发一个set chunk size消息来设置chunk size的大小，也可以不发
-            
             // RTMP create stream
             connector.createStream()
             

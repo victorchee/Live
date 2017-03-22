@@ -54,9 +54,10 @@ class RTMPReceiver {
         }
         
         func readMessageHeader() {
-            // find the previous chunk info, if not find, it's the first
+            // Find the previous chunk info
             chunk = chunkStreams[chunkStreamID]
             if chunk == nil {
+                // Don't hava previous chunk, it's the first chunk
                 chunk = RTMPChunk()
                 chunkStreams[chunkStreamID] = chunk
             }
@@ -73,20 +74,25 @@ class RTMPReceiver {
             var hasExtendedTimestamp = false
             var timestampDelta: UInt32!
             if fmt <= 0x02 {
+                // Zero / One / Two
                 timestampDelta = UInt32(bytes: [0x00] + socket.read3Bytes()).bigEndian
                 hasExtendedTimestamp = timestampDelta >= 0xffffff
                 if !hasExtendedTimestamp {
                     if fmt == 0x00 {
+                        // Zero
                         chunk.timestamp = timestampDelta
                     } else {
+                        // One / Two
                         chunk.timestamp = chunk.timestamp! + timestampDelta
                     }
                 }
                 
                 if fmt <= 0x01 {
+                    // Zero / One
                     payloadLength = Int(Int32(bytes: [0x00] + socket.read3Bytes()).bigEndian)
                     chunk.messageType = MessageType(rawValue: socket.read())
                     if fmt == 0x00 {
+                        // Zero
                         var bytes = [UInt8](repeating: 0x00, count: 4)
                         socket.read(&bytes, maxLength: 4)
                         chunk.messageStreamID = UInt32(bytes: bytes)
@@ -95,6 +101,7 @@ class RTMPReceiver {
                     }
                 }
             } else {
+                // Three
                 if isFirstChunk && !hasExtendedTimestamp {
                     chunk.timestamp = chunk.timestamp! + timestampDelta
                 }
@@ -167,6 +174,9 @@ class RTMPReceiver {
             guard let message = receiveMessage() as? RTMPCommandMessage else { continue }
             
             let commandName = message.commandName
+            // _result消息表示接受该命令，对端可以继续往下执行流程
+            // _error消息代表拒绝该命令要执行的操作
+            // method name消息代表要在之前命令的发送端执行的函数名称
             if commandName == "_result" || commandName == "_error" {
                 if transactionID == message.transactionID {
                     return message
