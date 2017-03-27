@@ -28,8 +28,8 @@
 		F05E78A41E60616D0085AAD3 /* RTMPConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78991E60616D0085AAD3 /* RTMPConnector.swift */; };
 		F05E78A51E60616D0085AAD3 /* RTMPReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E789A1E60616D0085AAD3 /* RTMPReceiver.swift */; };
 		F05E78A61E60616D0085AAD3 /* Amf0.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E789B1E60616D0085AAD3 /* Amf0.swift */; };
-		F05E78B01E6061840085AAD3 /* AudioCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78A71E6061840085AAD3 /* AudioCapturer.swift */; };
-		F05E78B11E6061840085AAD3 /* VideoCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78A81E6061840085AAD3 /* VideoCapturer.swift */; };
+		F05E78B01E6061840085AAD3 /* AudioCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78A71E6061840085AAD3 /* AudioCapture.swift */; };
+		F05E78B11E6061840085AAD3 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78A81E6061840085AAD3 /* VideoCapture.swift */; };
 		F05E78B21E6061840085AAD3 /* VideoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */; };
 		F05E78B31E6061840085AAD3 /* AACEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78AA1E6061840085AAD3 /* AACEncoder.swift */; };
 		F05E78B41E6061840085AAD3 /* AVCEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */; };
@@ -102,8 +102,8 @@
 		F05E78991E60616D0085AAD3 /* RTMPConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPConnector.swift; sourceTree = "<group>"; };
 		F05E789A1E60616D0085AAD3 /* RTMPReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPReceiver.swift; sourceTree = "<group>"; };
 		F05E789B1E60616D0085AAD3 /* Amf0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amf0.swift; sourceTree = "<group>"; };
-		F05E78A71E6061840085AAD3 /* AudioCapturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCapturer.swift; sourceTree = "<group>"; };
-		F05E78A81E6061840085AAD3 /* VideoCapturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapturer.swift; sourceTree = "<group>"; };
+		F05E78A71E6061840085AAD3 /* AudioCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCapture.swift; sourceTree = "<group>"; };
+		F05E78A81E6061840085AAD3 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewView.swift; sourceTree = "<group>"; };
 		F05E78AA1E6061840085AAD3 /* AACEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACEncoder.swift; sourceTree = "<group>"; };
 		F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCEncoder.swift; sourceTree = "<group>"; };
@@ -165,8 +165,8 @@
 			children = (
 				F05E78331E5DB6510085AAD3 /* AppDelegate.swift */,
 				F05E78351E5DB6510085AAD3 /* ViewController.swift */,
-				F05E78A71E6061840085AAD3 /* AudioCapturer.swift */,
-				F05E78A81E6061840085AAD3 /* VideoCapturer.swift */,
+				F05E78A71E6061840085AAD3 /* AudioCapture.swift */,
+				F05E78A81E6061840085AAD3 /* VideoCapture.swift */,
 				F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */,
 				F05E78AA1E6061840085AAD3 /* AACEncoder.swift */,
 				F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */,
@@ -362,9 +362,9 @@
 			files = (
 				F05E78B41E6061840085AAD3 /* AVCEncoder.swift in Sources */,
 				F05E78361E5DB6510085AAD3 /* ViewController.swift in Sources */,
-				F05E78B01E6061840085AAD3 /* AudioCapturer.swift in Sources */,
+				F05E78B01E6061840085AAD3 /* AudioCapture.swift in Sources */,
 				F05E78341E5DB6510085AAD3 /* AppDelegate.swift in Sources */,
-				F05E78B11E6061840085AAD3 /* VideoCapturer.swift in Sources */,
+				F05E78B11E6061840085AAD3 /* VideoCapture.swift in Sources */,
 				F05E78B31E6061840085AAD3 /* AACEncoder.swift in Sources */,
 				F05E78B71E6061840085AAD3 /* RTMPMuxer.swift in Sources */,
 				F05E78B51E6061840085AAD3 /* AudioSpecificConfiguration.swift in Sources */,

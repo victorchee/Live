@@ -1,5 +1,5 @@
 //
-//  AudioCapturer.swift
+//  AudioCapture.swift
 //  Live
 //
 //  Created by Migu on 2016/12/22.
@@ -9,8 +9,8 @@
 import UIKit
 import AVFoundation
 
-final class AudioCapturer: NSObject {
-    fileprivate let capturerQueue = DispatchQueue(label: "AudioCapturerQueue")
+final class AudioCapture: NSObject {
+    fileprivate let captureQueue = DispatchQueue(label: "AudioCaptureQueue")
     
     var session: AVCaptureSession!
     var captureOutput: AVCaptureAudioDataOutput!
@@ -18,7 +18,7 @@ final class AudioCapturer: NSObject {
     
     fileprivate var outputHandler: OutputHandler?
     
-    fileprivate func configureCapturerOutput() {
+    fileprivate func configureCaptureOutput() {
         guard let session = self.session else { return }
         if captureOutput != nil {
             captureOutput.setSampleBufferDelegate(nil, queue: nil)
@@ -26,13 +26,13 @@ final class AudioCapturer: NSObject {
         }
         
         captureOutput = AVCaptureAudioDataOutput()
-        captureOutput.setSampleBufferDelegate(self, queue: capturerQueue)
+        captureOutput.setSampleBufferDelegate(self, queue: captureQueue)
         if session.canAddOutput(captureOutput) {
             session.addOutput(captureOutput)
         }
     }
     
-    fileprivate func configureCapturerInput() {
+    fileprivate func configureCaptureInput() {
         guard let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio) else { return }
         guard let session = self.session else { return }
         
@@ -48,8 +48,8 @@ final class AudioCapturer: NSObject {
     }
     
     func attachMicrophone() {
-        configureCapturerOutput()
-        configureCapturerInput()
+        configureCaptureOutput()
+        configureCaptureInput()
     }
     
     func output(outputHandler: @escaping OutputHandler) {
@@ -57,7 +57,7 @@ final class AudioCapturer: NSObject {
     }
 }
 
-extension AudioCapturer: AVCaptureAudioDataOutputSampleBufferDelegate {
+extension AudioCapture: AVCaptureAudioDataOutputSampleBufferDelegate {
     typealias OutputHandler = (_ sampleBuffer: CMSampleBuffer) -> Void
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {

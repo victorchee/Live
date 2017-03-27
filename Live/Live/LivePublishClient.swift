@@ -16,27 +16,19 @@ class LivePublishClient: NSObject {
     fileprivate var videoOrientation = AVCaptureVideoOrientation.portrait {
         didSet {
             if videoOrientation == oldValue { return }
-            videoCapturer.videoOrientation = videoOrientation
+            videoCapture.videoOrientation = videoOrientation
             videoEncoder.videoOrientation = videoOrientation
         }
     }
-    fileprivate let videoCapturer = VideoCapturer()
-    fileprivate let audioCapturer = AudioCapturer()
+    fileprivate let videoCapture = VideoCapture()
+    fileprivate let audioCapture = AudioCapture()
     fileprivate let captureSession = AVCaptureSession()
     fileprivate let videoEncoder = AVCEncoder()
     fileprivate let audioEncoder = AACEncoder()
     fileprivate var muxer = RTMPMuxer()
     fileprivate var rtmpPublisher = RTMPPublishClient()
     public var videoPreviewView: VideoPreviewView {
-        return videoCapturer.videoPreviewView
-    }
-    public var videoCapturerSettings: [String: Any] {
-        get {
-            return videoCapturer.dictionaryWithValues(forKeys: VideoCapturer.supportedSettingsKeys)
-        }
-        set {
-            videoCapturer.setValuesForKeys(newValue)
-        }
+        return videoCapture.videoPreviewView
     }
     public var videoEncoderSettings: [String: Any] {
         get {
@@ -54,15 +46,11 @@ class LivePublishClient: NSObject {
             audioEncoder.setValuesForKeys(newValue)
         }
     }
-    public var devicePosition: AVCaptureDevicePosition {
-        get { return videoCapturer.devicePosition }
-        set { videoCapturer.devicePosition = newValue }
-    }
     
     public override init() {
         super.init()
         setupRTMP()
-        setupCapturer()
+        setupCapture()
         setupEncode()
     }
     
@@ -83,20 +71,20 @@ class LivePublishClient: NSObject {
         muxer.delegate = self
     }
     
-    private func setupCapturer() {
+    private func setupCapture() {
         listenOrientationDidChangeNotification()
         
-        audioCapturer.session = captureSession
-        audioCapturer.output { (sampleBuffer) in
+        audioCapture.session = captureSession
+        audioCapture.output { (sampleBuffer) in
             self.handleAudioCaptureBuffer(sampleBuffer)
         }
-        audioCapturer.attachMicrophone()
+        audioCapture.attachMicrophone()
         
-        videoCapturer.session = captureSession
-        videoCapturer.output { (sampleBuffer) in
+        videoCapture.session = captureSession
+        videoCapture.output { (sampleBuffer) in
             self.handleVideoCaptureBuffer(sampleBuffer)
         }
-        videoCapturer.attachCamera()
+        videoCapture.attachCamera()
     }
     
     private func setupEncode() {
