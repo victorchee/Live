@@ -2,7 +2,7 @@
 //  AACEncoder.swift
 //  Live
 //
-//  Created by Migu on 2016/12/22.
+//  Created by VictorChee on 2016/12/22.
 //  Copyright © 2016年 VictorChee. All rights reserved.
 //
 
@@ -166,7 +166,7 @@ final class AACEncoder: NSObject {
             CMSampleBufferCreate(kCFAllocatorDefault, nil, false, nil, nil, formatDescription, numSamples, 1, &timing, 0, nil, &outputBuffer)
             CMSampleBufferSetDataBufferFromAudioBufferList(outputBuffer!, kCFAllocatorDefault, kCFAllocatorDefault, 0, &outputBufferList)
             // 编码后输出的音频包
-            delegate?.didGetAACSampleBuffer(outputBuffer)
+            delegate?.didGetAACSampleBuffer(outputBuffer) // 编码完成的数据
         }
         
         let list = UnsafeMutableAudioBufferListPointer(&outputBufferList)

@@ -2,7 +2,7 @@
 //  VideoCapture.swift
 //  Live
 //
-//  Created by Migu on 2016/12/22.
+//  Created by VictorChee on 2016/12/22.
 //  Copyright © 2016年 VictorChee. All rights reserved.
 //
 
@@ -112,6 +112,6 @@ extension VideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
     typealias OutputHandler = (_ sampleBuffer: CMSampleBuffer) -> Void
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        self.outputHandler?(sampleBuffer)
+        self.outputHandler?(sampleBuffer) // 未编码的数据
     }
 }

@@ -2,7 +2,7 @@
 //  RTMPChunk.swift
 //  RTMP
 //
-//  Created by Migu on 2016/12/21.
+//  Created by VictorChee on 2016/12/21.
 //  Copyright © 2016年 VictorChee. All rights reserved.
 //
 

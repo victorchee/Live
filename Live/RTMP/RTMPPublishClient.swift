@@ -2,7 +2,7 @@
 //  RTMPPublicClient.swift
 //  RTMP
 //
-//  Created by Migu on 2016/12/22.
+//  Created by VictorChee on 2016/12/22.
 //  Copyright © 2016年 VictorChee. All rights reserved.
 //
 

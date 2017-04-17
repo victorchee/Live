@@ -2,7 +2,7 @@
 //  AVCEncoder.swift
 //  Live
 //
-//  Created by Migu on 2016/12/22.
+//  Created by VictorChee on 2016/12/22.
 //  Copyright © 2016年 VictorChee. All rights reserved.
 //
 
@@ -92,6 +92,7 @@ final class AVCEncoder: NSObject {
     fileprivate var session: VTCompressionSession?
     fileprivate var formatDescription: CMFormatDescription?
     
+    /// 编码成功后调用
     fileprivate var callback: VTCompressionOutputCallback = {(
         outputCallbackRefCon:UnsafeMutableRawPointer?,
         sourceFrameRefCon:UnsafeMutableRawPointer?,
@@ -99,6 +100,7 @@ final class AVCEncoder: NSObject {
         infoFlags:VTEncodeInfoFlags,
         sampleBuffer:CMSampleBuffer?
         ) in
+        // 编码完成的数据
         guard let sampleBuffer = sampleBuffer, status == noErr else { return }
         let encoder = unsafeBitCast(outputCallbackRefCon, to: AVCEncoder.self)
         let isKeyFrame = !CFDictionaryContainsKey(unsafeBitCast(CFArrayGetValueAtIndex(CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, true), 0), to: CFDictionary.self), unsafeBitCast(kCMSampleAttachmentKey_NotSync, to: UnsafeRawPointer.self))
@@ -164,10 +166,9 @@ final class AVCEncoder: NSObject {
         guard let session = self.session else { return }
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         let presentationTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-        let presentationDuration = CMSampleBufferGetDuration(sampleBuffer)
+        let duration = CMSampleBufferGetDuration(sampleBuffer)
         var flags = VTEncodeInfoFlags()
-        // TODO: not sure the effect of each parameter
-        VTCompressionSessionEncodeFrame(session, imageBuffer, presentationTimestamp, presentationDuration, nil, nil, &flags)
+        VTCompressionSessionEncodeFrame(session, imageBuffer, presentationTimestamp, duration, nil, nil, &flags)
     }
     
     func run() {
