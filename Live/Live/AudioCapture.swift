@@ -12,7 +12,8 @@ import AVFoundation
 final class AudioCapture: NSObject {
     fileprivate let captureQueue = DispatchQueue(label: "AudioCaptureQueue")
     
-    var session: AVCaptureSession!
+    /// 由外部传入，因为要和Video Capture共享同一个sesstion
+    var session: AVCaptureSession?
     var captureOutput: AVCaptureAudioDataOutput!
     var captureInput: AVCaptureDeviceInput!
     

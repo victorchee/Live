@@ -12,9 +12,10 @@ import AVFoundation
 final class VideoCapture: NSObject {
     fileprivate let captureQueue = DispatchQueue(label: "VideoCapture")
     
-    var videoPreviewView = VideoPreviewView()
+    let videoPreviewView = VideoPreviewView()
     
-    var session: AVCaptureSession!
+    /// 由外部传入，因为要和Audio Capture共享同一个sesstion
+    var session: AVCaptureSession?
     fileprivate var captureOutput: AVCaptureVideoDataOutput!
     fileprivate var captureInput: AVCaptureDeviceInput?
     fileprivate var outputHandler: OutputHandler?

@@ -10,31 +10,23 @@ import UIKit
 import AVFoundation
 
 public class VideoPreviewView: UIView {
-    required override public init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = UIColor.black
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        backgroundColor = UIColor.black
+    var videoPreviewLayer: AVCaptureVideoPreviewLayer {
+        guard let layer = layer as? AVCaptureVideoPreviewLayer else {
+            fatalError("Expected `AVCaptureVideoPreviewLayer` type for layer. Check PreviewView.layerClass implementation")
+        }
+        return layer
     }
     
     override public class var layerClass: AnyClass {
-        get {
-            return AVCaptureVideoPreviewLayer.self
-        }
+        return AVCaptureVideoPreviewLayer.self
     }
 
-    var session: AVCaptureSession {
+    var session: AVCaptureSession? {
         get {
-            let previewLayer = self.layer as! AVCaptureVideoPreviewLayer
-            return previewLayer.session
+            return videoPreviewLayer.session
         }
         set {
-           let previewLayer = self.layer as! AVCaptureVideoPreviewLayer
-            previewLayer.session = newValue
-            previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+            videoPreviewLayer.session = newValue
         }
     }
 }

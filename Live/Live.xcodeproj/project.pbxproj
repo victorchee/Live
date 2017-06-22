@@ -293,7 +293,7 @@
 				TargetAttributes = {
 					F05E782F1E5DB6500085AAD3 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = YA5C67G66D;
+						DevelopmentTeam = 8F4GU35MC5;
 						ProvisioningStyle = Automatic;
 					};
 					F05E786C1E5DBAFB0085AAD3 = {
@@ -538,7 +538,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YA5C67G66D;
+				DEVELOPMENT_TEAM = 8F4GU35MC5;
 				INFOPLIST_FILE = Live/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.Live;
@@ -552,7 +552,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YA5C67G66D;
+				DEVELOPMENT_TEAM = 8F4GU35MC5;
 				INFOPLIST_FILE = Live/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.Live;
