@@ -44,6 +44,7 @@ final class AVCEncoder: NSObject {
             }
         }
     }
+    
     var height: Int32 = 720 {
         didSet {
             if self.height == oldValue { return }
@@ -52,47 +53,59 @@ final class AVCEncoder: NSObject {
             }
         }
     }
+    
     var videoOrientation = AVCaptureVideoOrientation.portrait {
         didSet {
-            if self.videoOrientation == oldValue { return }
-            (self.width, self.height) = (self.height, self.width)
+            if self.videoOrientation != oldValue {
+                (self.width, self.height) = (self.height, self.width)
+            }
         }
     }
+    
     var fps: Float64 = 25 {
         didSet {
-            if self.fps == oldValue { return }
-            encoderQueue.async {
-                guard let session = self.session else { return }
-                VTSessionSetProperty(session, kVTCompressionPropertyKey_MaxKeyFrameInterval, self.fps as CFTypeRef)
-                VTSessionSetProperty(session, kVTCompressionPropertyKey_ExpectedFrameRate, self.fps as CFTypeRef)
+            if self.fps != oldValue {
+                encoderQueue.async {
+                    if let session = self.session {
+                        VTSessionSetProperty(session, kVTCompressionPropertyKey_MaxKeyFrameInterval, self.fps as CFTypeRef)
+                        VTSessionSetProperty(session, kVTCompressionPropertyKey_ExpectedFrameRate, self.fps as CFTypeRef)
+                    }
+                }
             }
         }
     }
-    // @see about bitrate: https://zh.wikipedia.org/wiki/%E6%AF%94%E7%89%B9%E7%8E%87
+    
+    /// @see about bitrate: https://zh.wikipedia.org/wiki/比特率
     var bitrate: UInt32 = 200 * 1000 {
         didSet {
-            if self.bitrate == oldValue { return }
-            encoderQueue.async {
-                guard let session = self.session else { return }
-                VTSessionSetProperty(session, kVTCompressionPropertyKey_AverageBitRate, CFNumberCreate(nil, .sInt32Type, &self.bitrate))
+            if self.bitrate != oldValue {
+                encoderQueue.async {
+                    if let session = self.session {
+                        VTSessionSetProperty(session, kVTCompressionPropertyKey_AverageBitRate, CFNumberCreate(nil, .sInt32Type, &self.bitrate))
+                    }
+                }
             }
         }
     }
+    
     var keyFrameIntervalDuration: Double = 2.0 {
         didSet {
-            if self.keyFrameIntervalDuration == oldValue { return }
-            encoderQueue.async {
-                guard let session = self.session else { return }
-                VTSessionSetProperty(session, kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration, CFNumberCreate(nil, .doubleType, &self.keyFrameIntervalDuration))
+            if self.keyFrameIntervalDuration != oldValue {
+                encoderQueue.async {
+                    if let session = self.session {
+                        VTSessionSetProperty(session, kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration, CFNumberCreate(nil, .doubleType, &self.keyFrameIntervalDuration))
+                    }
+                }
             }
         }
     }
     
     weak var delegate: AVCEncoderDelegate?
+    
     fileprivate var session: VTCompressionSession?
     fileprivate var formatDescription: CMFormatDescription?
     
-    /// 编码成功后调用
+    /// 编码成功回调
     fileprivate var callback: VTCompressionOutputCallback = {(
         outputCallbackRefCon:UnsafeMutableRawPointer?,
         sourceFrameRefCon:UnsafeMutableRawPointer?,
@@ -115,9 +128,9 @@ final class AVCEncoder: NSObject {
     }
     
     fileprivate func configureSession() {
-        if session != nil {
-            VTCompressionSessionInvalidate(session!)
-            session = nil
+        if let session = self.session {
+            VTCompressionSessionInvalidate(session)
+            self.session = nil
         }
         let attributes: [NSString: Any] = [
             kCVPixelBufferPixelFormatTypeKey: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange),
@@ -155,10 +168,10 @@ final class AVCEncoder: NSObject {
     }
     
     fileprivate func disableSession() {
-        if session != nil {
-            VTCompressionSessionInvalidate(session!)
-            session = nil
+        if let session = self.session {
+            VTCompressionSessionInvalidate(session)
         }
+        self.session = nil
         formatDescription = nil // 必须置空，否则，再次推流的时候不会发送sps, pps，在某些服务器上不能播放
     }
     
