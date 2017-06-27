@@ -25,10 +25,10 @@ final class AACEncoder: NSObject {
     fileprivate var isRunning = false
     weak var delegate: AACEncoderDelegate?
     static let supportedSettingsKeys = [
-//        "muted",
+        "muted",
         "bitrate",
-//        "profile",
-//        "sampleRate",
+        "profile",
+        "sampleRate", // 暂不支持
     ]
     var metaData: [String: Any] {
         var metaData = [String: Any]()
@@ -43,22 +43,24 @@ final class AACEncoder: NSObject {
     var bitrate: UInt32 = 32*1000 {
         didSet {
             aacEncoderQueue.async {
-                guard let converter = self.converter else { return }
-                var bitrate: UInt32 = self.bitrate * self.inDestinationFormat.mChannelsPerFrame
-                AudioConverterSetProperty(converter, kAudioConverterEncodeBitRate, UInt32(MemoryLayout<UInt32>.size), &bitrate)
+                if let converter = self.converter {
+                    var bitrate: UInt32 = self.bitrate * self.inDestinationFormat.mChannelsPerFrame
+                    AudioConverterSetProperty(converter, kAudioConverterEncodeBitRate, UInt32(MemoryLayout<UInt32>.size), &bitrate)
+                }
             }
         }
     }
     fileprivate var profile = UInt32(MPEG4ObjectID.AAC_LC.rawValue)
-    /// 关于音频描述信息的 转换后的 aac 相关的包
+    /// 关于音频描述信息的 转换后的AAC相关的包
     fileprivate var formatDescription: CMFormatDescription? {
         didSet {
-            if CMFormatDescriptionEqual(formatDescription, oldValue) { return }
-            delegate?.didGetAACFormatDescription(formatDescription)
+            if !CMFormatDescriptionEqual(formatDescription, oldValue) {
+                delegate?.didGetAACFormatDescription(formatDescription)
+            }
         }
     }
     fileprivate var currentBufferList: AudioBufferList? = nil
-    // PCM 数据描述信息
+    // PCM数据描述信息
     fileprivate var inSourceFormat: AudioStreamBasicDescription?
     fileprivate var inputDataProc: AudioConverterComplexInputDataProc = {( _, ioNumberDataPackets, ioData, outDataPacketDescription, inUserData) in
         return unsafeBitCast(inUserData, to: AACEncoder.self).onInputDataForAudioConverter(ioNumberDataPackets: ioNumberDataPackets, ioData: ioData, outDataPacketDescription: outDataPacketDescription)

@@ -180,7 +180,6 @@ final class AVCEncoder: NSObject {
     func encode(sampleBuffer: CMSampleBuffer) {
         guard let session = self.session else { return }
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-        CVPixelBufferLockBaseAddress(<#T##pixelBuffer: CVPixelBuffer##CVPixelBuffer#>, <#T##lockFlags: CVPixelBufferLockFlags##CVPixelBufferLockFlags#>)
         let presentationTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         let duration = CMSampleBufferGetDuration(sampleBuffer)
         var flags = VTEncodeInfoFlags()
