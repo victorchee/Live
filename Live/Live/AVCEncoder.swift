@@ -38,18 +38,20 @@ final class AVCEncoder: NSObject {
     /* encoder session rely on width and height ,when it changed we must regenerate the session */
     var width: Int32 = 1280 {
         didSet {
-            if self.width == oldValue { return }
-            encoderQueue.async {
-                if self.session != nil { self.configureSession() }
+            if self.width != oldValue {
+                encoderQueue.async {
+                    if self.session != nil { self.configureSession() }
+                }
             }
         }
     }
     
     var height: Int32 = 720 {
         didSet {
-            if self.height == oldValue { return }
-            encoderQueue.async {
-                if self.session != nil { self.configureSession() }
+            if self.height == oldValue {
+                encoderQueue.async {
+                    if self.session != nil { self.configureSession() }
+                }
             }
         }
     }
@@ -114,7 +116,7 @@ final class AVCEncoder: NSObject {
         sampleBuffer:CMSampleBuffer?
         ) in
         // 编码完成的数据
-        guard let sampleBuffer = sampleBuffer, status == noErr else { return }
+        guard let sampleBuffer = sampleBuffer, status == noErr, infoFlags != .frameDropped else { return }
         let encoder = unsafeBitCast(outputCallbackRefCon, to: AVCEncoder.self)
         let isKeyFrame = !CFDictionaryContainsKey(unsafeBitCast(CFArrayGetValueAtIndex(CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, true), 0), to: CFDictionary.self), unsafeBitCast(kCMSampleAttachmentKey_NotSync, to: UnsafeRawPointer.self))
         if isKeyFrame {
@@ -139,7 +141,7 @@ final class AVCEncoder: NSObject {
             kCVPixelBufferHeightKey: NSNumber(value: height),
             kCVPixelBufferWidthKey: NSNumber(value: width),
         ]
-        VTCompressionSessionCreate(kCFAllocatorDefault, height, width, kCMVideoCodecType_H264, nil, attributes as CFDictionary?, nil, callback, unsafeBitCast(self, to: UnsafeMutableRawPointer.self), &session) // 宽和高设置反了，只能看到视频中间部分图像
+        let _ = VTCompressionSessionCreate(kCFAllocatorDefault, height, width, kCMVideoCodecType_H264, nil, attributes as CFDictionary?, nil, callback, unsafeBitCast(self, to: UnsafeMutableRawPointer.self), &session) // 宽和高设置反了，只能看到视频中间部分图像
         
         let profileLevel = kVTProfileLevel_H264_Baseline_3_1 as String
         let isBaseline = profileLevel.contains("Baseline")
@@ -147,9 +149,9 @@ final class AVCEncoder: NSObject {
         var properties: [NSString: Any] = [
             kVTCompressionPropertyKey_RealTime: kCFBooleanTrue,
             kVTCompressionPropertyKey_ProfileLevel: profileLevel,
-            kVTCompressionPropertyKey_AverageBitRate: Int(bitrate), // bit rate.
-            kVTCompressionPropertyKey_ExpectedFrameRate: NSNumber(value: fps), // frame rate.
-            kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration: NSNumber(value: keyFrameIntervalDuration), // key frame interval.
+            kVTCompressionPropertyKey_AverageBitRate: Int(bitrate), // 平均码率（bps）
+            kVTCompressionPropertyKey_ExpectedFrameRate: NSNumber(value: fps), // 期望帧率
+            kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration: NSNumber(value: keyFrameIntervalDuration), // 关键帧（GOPsize）间隔
             kVTCompressionPropertyKey_AllowFrameReordering: !isBaseline,
             kVTCompressionPropertyKey_PixelTransferProperties: [
                 "ScalingMode": "Trim"]
@@ -178,6 +180,7 @@ final class AVCEncoder: NSObject {
     func encode(sampleBuffer: CMSampleBuffer) {
         guard let session = self.session else { return }
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        CVPixelBufferLockBaseAddress(<#T##pixelBuffer: CVPixelBuffer##CVPixelBuffer#>, <#T##lockFlags: CVPixelBufferLockFlags##CVPixelBufferLockFlags#>)
         let presentationTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         let duration = CMSampleBufferGetDuration(sampleBuffer)
         var flags = VTEncodeInfoFlags()

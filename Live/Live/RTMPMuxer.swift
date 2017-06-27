@@ -59,6 +59,8 @@ class RTMPMuxer {
     func muxAVCSampleBuffer(sampleBuffer: CMSampleBuffer) {
         guard let block = CMSampleBufferGetDataBuffer(sampleBuffer) else { return }
         let isKeyFrame = !CFDictionaryContainsKey(unsafeBitCast(CFArrayGetValueAtIndex(CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, true), 0), to: CFDictionary.self), unsafeBitCast(kCMSampleAttachmentKey_NotSync, to: UnsafeRawPointer.self))
+        // 判断当前帧是否为关键帧 获取sps & pps 数据
+        // 解析出参数集SPS和PPS，加上开始码后组装成NALU。提取出视频数据，将长度码转换成开始码，组长成NALU。将NALU发送出去。
         var totalLength: Int = 0
         var dataPointer: UnsafeMutablePointer<Int8>? = nil
         CMBlockBufferGetDataPointer(block, 0, nil, &totalLength, &dataPointer)
