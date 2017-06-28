@@ -163,7 +163,7 @@ extension RTMPSocket: StreamDelegate {
         case Stream.Event.hasSpaceAvailable:
             print("stream has space available to write")
         case Stream.Event.errorOccurred:
-            print("stream error occurred: \(aStream.streamError?.localizedDescription)")
+            print("stream error occurred: \(aStream.streamError?.localizedDescription ?? "")")
         case Stream.Event.endEncountered:
             print("stream end encountered")
         default:

@@ -36,9 +36,9 @@ class RTMPMuxer {
         var buffer = Data()
         var data = [UInt8](repeating: 0x00, count: 5)
         // FrameType(4bits) | CodecID(4bits)
-        data[0] = FLVFrameType.Key.rawValue << 4 | FLVVideoCodec.AVC.rawValue
+        data[0] = FLVFrameType.key.rawValue << 4 | FLVVideoCodec.avc.rawValue
         // AVCPacketType(8bits)
-        data[1] = FLVAVCPacketType.Seq.rawValue
+        data[1] = FLVAVCPacketType.seq.rawValue
         // COmposotion Time(24bits)
         data[2...4] = [0x00, 0x00, 0x00]
         buffer.append(&data, count: data.count)
@@ -102,8 +102,8 @@ class RTMPMuxer {
         
         let buffer = NSMutableData()
         
-        var data: [UInt8] = [0x00, FLVAACPacketType.Raw.rawValue]
-        data[0] = FLVAudioCodec.AAC.rawValue << 4 | FLVSoundRate.KHz44.rawValue << 2 | FLVSoundSize.Snd16bit.rawValue << 1 | FLVSoundType.Stereo.rawValue
+        var data: [UInt8] = [0x00, FLVAACPacketType.raw.rawValue]
+        data[0] = FLVAudioCodec.aac.rawValue << 4 | FLVSoundRate.kHz44.rawValue << 2 | FLVSoundSize.snd16bit.rawValue << 1 | FLVSoundType.stereo.rawValue
         buffer.append(&data, length: data.count)
         
         buffer.append(audioBufferList.mBuffers.mData!, length: Int(audioBufferList.mBuffers.mDataByteSize))
@@ -120,8 +120,8 @@ class RTMPMuxer {
         // data的第二个字节为0，0 则为 AAC 音频同步包，1 则为普通 AAC 数据包
         var data: [UInt8] = [0x00, 0x00]
         // 音频同步包的头的第一个字节
-        data[0] = FLVAudioCodec.AAC.rawValue << 4 | FLVSoundRate.KHz44.rawValue << 2 | FLVSoundSize.Snd16bit.rawValue << 1 | FLVSoundType.Stereo.rawValue
-        data[1] = FLVAACPacketType.Seq.rawValue
+        data[0] = FLVAudioCodec.aac.rawValue << 4 | FLVSoundRate.kHz44.rawValue << 2 | FLVSoundSize.snd16bit.rawValue << 1 | FLVSoundType.stereo.rawValue
+        data[1] = FLVAACPacketType.seq.rawValue
         buffer.append(&data, length: data.count)
         buffer.append(configuration, length: configuration.count)
         delegate?.sampleOutput(audio: buffer, timestamp: 0)
