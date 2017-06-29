@@ -94,7 +94,7 @@ class LivePublishClient: NSObject {
     
     private func handleAudioCaptureBuffer(_ sampleBuffer: CMSampleBuffer) {
         guard isPublishReady else { return }
-//        audioEncoder.encode(sampleBuffer: sampleBuffer)
+        audioEncoder.encode(sampleBuffer: sampleBuffer)
     }
     
     private func handleVideoCaptureBuffer(_ sampleBuffer: CMSampleBuffer) {
