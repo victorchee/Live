@@ -33,9 +33,9 @@ struct AudioSpecificConfiguration {
     }
     
     init?(bytes:[UInt8]) {
-        guard let type:AudioObjectType = AudioObjectType(rawValue: bytes[0] >> 3),
-            let frequency:SamplingFrequency = SamplingFrequency(rawValue: (bytes[0] & 0b00000111) << 1 | (bytes[1] >> 7)),
-            let channel:ChannelConfiguration = ChannelConfiguration(rawValue: (bytes[1] & 0b01111000) >> 3) else {
+        guard let type = AudioObjectType(rawValue: bytes[0] >> 3),
+            let frequency = SamplingFrequency(rawValue: (bytes[0] & 0b00000111) << 1 | (bytes[1] >> 7)),
+            let channel = ChannelConfiguration(rawValue: (bytes[1] & 0b01111000) >> 3) else {
                 return nil
         }
         self.type = type
@@ -56,7 +56,8 @@ struct AudioSpecificConfiguration {
         channel = ChannelConfiguration(rawValue: UInt8(asbd.mChannelsPerFrame))!
     }
     
-    func adts(length:Int) -> [UInt8] {
+    /// adts头是一个7bit的数据，通过adts可以获得AAC数据的编码参数
+    func adts(_ length:Int) -> [UInt8] {
         let size:Int = 7
         let fullSize:Int = size + length
         var adts:[UInt8] = [UInt8](repeating: 0x00, count: size)
@@ -71,7 +72,7 @@ struct AudioSpecificConfiguration {
     }
     
     func createAudioStreamBasicDescription() -> AudioStreamBasicDescription {
-        var asbd:AudioStreamBasicDescription = AudioStreamBasicDescription()
+        var asbd = AudioStreamBasicDescription()
         asbd.mSampleRate = frequency.sampleRate
         asbd.mFormatID = kAudioFormatMPEG4AAC
         asbd.mFormatFlags = UInt32(type.rawValue)
@@ -92,37 +93,37 @@ extension AudioSpecificConfiguration: CustomStringConvertible {
 }
 
 enum AudioObjectType: UInt8 {
-    case Unknown     = 0
-    case AACMain     = 1
-    case AACLC       = 2
-    case AACSSR      = 3
-    case AACLTP      = 4
-    case AACSBR      = 5
-    case AACScalable = 6
-    case TwinqVQ     = 7
-    case CELP        = 8
-    case HXVC        = 9
+    case unknown     = 0
+    case aacMain     = 1
+    case aaclc       = 2
+    case aacssr      = 3
+    case aacltp      = 4
+    case aacsbr      = 5
+    case aacScalable = 6
+    case twinqVQ     = 7
+    case celp        = 8
+    case hxvc        = 9
     
     init(objectID: MPEG4ObjectID) {
         switch objectID {
         case .aac_Main:
-            self = .AACMain
+            self = .aacMain
         case .AAC_LC:
-            self = .AACLC
+            self = .aaclc
         case .AAC_SSR:
-            self = .AACSSR
+            self = .aacssr
         case .AAC_LTP:
-            self = .AACLTP
+            self = .aacltp
         case .AAC_SBR:
-            self = .AACSBR
+            self = .aacsbr
         case .aac_Scalable:
-            self = .AACScalable
+            self = .aacScalable
         case .twinVQ:
-            self = .TwinqVQ
+            self = .twinqVQ
         case .CELP:
-            self = .CELP
+            self = .celp
         case .HVXC:
-            self = .HXVC
+            self = .hxvc
         }
     }
 }
