@@ -68,6 +68,6 @@ extension AudioCapture: AVCaptureAudioDataOutputSampleBufferDelegate {
     typealias OutputHandler = (_ sampleBuffer: CMSampleBuffer) -> Void
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        self.outputHandler?(sampleBuffer) // 未编码的数据
+        self.outputHandler?(sampleBuffer) // 未编码的PCM数据
     }
 }

@@ -60,9 +60,14 @@ final class AACEncoder: NSObject {
         }
     }
     fileprivate var currentBufferList: AudioBufferList? = nil
-    // PCM数据描述信息
+    // PCM数据描述信息，即输入音频格式
     fileprivate var inSourceFormat: AudioStreamBasicDescription?
-    fileprivate var inputDataProc: AudioConverterComplexInputDataProc = {( _, ioNumberDataPackets, ioData, outDataPacketDescription, inUserData) in
+    fileprivate var inputDataProc: AudioConverterComplexInputDataProc = {(
+        converter: AudioConverterRef,
+        ioNumberDataPackets: UnsafeMutablePointer<UInt32>,
+        ioData: UnsafeMutablePointer<AudioBufferList>,
+        outDataPacketDescription: UnsafeMutablePointer<UnsafeMutablePointer<AudioStreamPacketDescription>?>?,
+        inUserData: UnsafeMutableRawPointer?) in
         return unsafeBitCast(inUserData, to: AACEncoder.self).onInputDataForAudioConverter(ioNumberDataPackets: ioNumberDataPackets, ioData: ioData, outDataPacketDescription: outDataPacketDescription)
     }
     
@@ -79,14 +84,14 @@ final class AACEncoder: NSObject {
         return noErr
     }
     
-    /// 目标转换格式
+    /// 目标转换格式，即输出音频格式
     fileprivate var inDestinationFormat: AudioStreamBasicDescription {
         get {
             var format = AudioStreamBasicDescription(mSampleRate: inSourceFormat!.mSampleRate,// 采样率 44100
-                mFormatID: kAudioFormatMPEG4AAC, // 压缩编码格式 MPEG4-AAC
+                mFormatID: kAudioFormatMPEG4AAC, // 压缩编码格式MPEG4-AAC
                 mFormatFlags: UInt32(MPEG4ObjectID.aac_Main.rawValue),
                 mBytesPerPacket: 0,
-                mFramesPerPacket: 1024, // AAC 一帧的大小 default： 1024 Bytes
+                mFramesPerPacket: 1024, // AAC一帧的大小，默认为1024Bytes
                 mBytesPerFrame: 0, //
                 mChannelsPerFrame: inSourceFormat!.mChannelsPerFrame, // 采样通道数， ipad4 is 1
                 mBitsPerChannel: 0, // 可能是采样位数
@@ -148,7 +153,6 @@ final class AACEncoder: NSObject {
         }
         
         var ioOutputDataPacketSize: UInt32 = 1
-//        var outputBufferList = createAudioBufferList(channels: inDestinationFormat.mChannelsPerFrame, size: 1024)
         let frameSize: UInt32 = 1024
         let channels = self.inSourceFormat!.mChannelsPerFrame
         let dataPtr = UnsafeMutableRawPointer.allocate(bytes: MemoryLayout<UInt32>.size(ofValue: frameSize), alignedTo: MemoryLayout<UInt32>.alignment(ofValue: frameSize))
@@ -158,8 +162,7 @@ final class AACEncoder: NSObject {
         var outputBufferList = AudioBufferList(mNumberBuffers: 1, mBuffers: audioBuffer)
         
         guard let converter = self.converter else { return }
-        // 转码方法 AudioConverterFillComplexBuffer： 实现所有音频格式间的转换。@see: http://metoo.blog.51cto.com/7809119/1314560
-        let status = AudioConverterFillComplexBuffer(converter, inputDataProc, unsafeBitCast(self, to: UnsafeMutableRawPointer.self), &ioOutputDataPacketSize, &outputBufferList, nil)
+        let status = AudioConverterFillComplexBuffer(converter, inputDataProc, unsafeBitCast(self, to: UnsafeMutableRawPointer.self), &ioOutputDataPacketSize, &outputBufferList, nil) // Fill this output buffer with encoded data from the encoder
         if status == noErr {
             var outputBuffer: CMSampleBuffer?
             var timing = CMSampleTimingInfo()
