@@ -141,16 +141,12 @@ extension LivePublishClient: AACEncoderDelegate {
 }
 
 extension LivePublishClient: RTMPMuxerDelegate {
-    func sampleOutput(audio buffer: NSData, timestamp: Double) {
-        var payload = [UInt8](repeating: 0x00, count: buffer.length)
-        buffer.getBytes(&payload, length: payload.count)
-        rtmpPublisher.publishAudio(payload, timestamp: UInt32(timestamp))
+    func sampleOutput(audio buffer: Data, timestamp: Double) {
+        rtmpPublisher.publishAudio([UInt8](buffer), timestamp: UInt32(timestamp))
     }
     
-    func sampleOutput(video buffer: NSData, timestamp: Double) {
-        var payload = [UInt8](repeating: 0x00, count: buffer.length)
-        buffer.getBytes(&payload, length: payload.count)
-        rtmpPublisher.publishVideo(payload, timestamp: UInt32(timestamp))
+    func sampleOutput(video buffer: Data, timestamp: Double) {
+        rtmpPublisher.publishVideo([UInt8](buffer), timestamp: UInt32(timestamp))
     }
 }
 
