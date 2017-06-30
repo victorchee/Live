@@ -108,7 +108,7 @@
 		F05E78AA1E6061840085AAD3 /* AACEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACEncoder.swift; sourceTree = "<group>"; };
 		F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCEncoder.swift; sourceTree = "<group>"; };
 		F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSpecificConfiguration.swift; sourceTree = "<group>"; };
-		F05E78AD1E6061840085AAD3 /* FLV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLV.swift; sourceTree = "<group>"; };
+		F05E78AD1E6061840085AAD3 /* FLV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FLV.swift; path = ../Live/FLV.swift; sourceTree = "<group>"; };
 		F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RTMPMuxer.swift; path = ../Live/RTMPMuxer.swift; sourceTree = "<group>"; };
 		F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePublishClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,7 +171,6 @@
 				F05E78AA1E6061840085AAD3 /* AACEncoder.swift */,
 				F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */,
 				F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */,
-				F05E78AD1E6061840085AAD3 /* FLV.swift */,
 				F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */,
 				F05E78371E5DB6510085AAD3 /* Main.storyboard */,
 				F05E783A1E5DB6510085AAD3 /* Assets.xcassets */,
@@ -186,17 +185,18 @@
 			children = (
 				F05E786F1E5DBAFB0085AAD3 /* RTMP.h */,
 				F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */,
+				F05E78971E60616D0085AAD3 /* RTMPPublishClient.swift */,
 				F05E78911E60616D0085AAD3 /* RTMPSocket.swift */,
 				F05E78921E60616D0085AAD3 /* RTMPChunk.swift */,
 				F05E78931E60616D0085AAD3 /* RTMPMessage.swift */,
 				F05E78941E60616D0085AAD3 /* NumberByteOperator.swift */,
 				F05E78951E60616D0085AAD3 /* ByteArrayInputStream.swift */,
 				F05E78961E60616D0085AAD3 /* RTMPHandshake.swift */,
-				F05E78971E60616D0085AAD3 /* RTMPPublishClient.swift */,
 				F05E78981E60616D0085AAD3 /* RTMPStream.swift */,
 				F05E78991E60616D0085AAD3 /* RTMPConnector.swift */,
 				F05E789A1E60616D0085AAD3 /* RTMPReceiver.swift */,
 				F05E789B1E60616D0085AAD3 /* Amf0.swift */,
+				F05E78AD1E6061840085AAD3 /* FLV.swift */,
 				F05E78701E5DBAFB0085AAD3 /* Info.plist */,
 			);
 			path = RTMP;
