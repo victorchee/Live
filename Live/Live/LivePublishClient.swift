@@ -13,22 +13,23 @@ import RTMP
 class LivePublishClient: NSObject {
     fileprivate let publishClientQueue = DispatchQueue(label: "LivePublishClientQueue")
     fileprivate var isPublishReady = false
-    fileprivate var videoOrientation = AVCaptureVideoOrientation.portrait {
-        didSet {
-            if videoOrientation == oldValue { return }
-            videoCapture.videoOrientation = videoOrientation
-            videoEncoder.videoOrientation = videoOrientation
-        }
-    }
+    fileprivate let captureSession = AVCaptureSession()
     fileprivate let videoCapture = VideoCapture()
     fileprivate let audioCapture = AudioCapture()
-    fileprivate let captureSession = AVCaptureSession()
     fileprivate let videoEncoder = AVCEncoder()
     fileprivate let audioEncoder = AACEncoder()
     fileprivate var muxer = RTMPMuxer()
     fileprivate var rtmpPublisher = RTMPPublishClient()
     public var videoPreviewView: VideoPreviewView {
         return videoCapture.videoPreviewView
+    }
+    fileprivate var videoOrientation = AVCaptureVideoOrientation.portrait {
+        didSet {
+            if videoOrientation != oldValue {
+                videoCapture.videoOrientation = videoOrientation
+                videoEncoder.videoOrientation = videoOrientation
+            }
+        }
     }
     public var videoEncoderSettings: [String: Any] {
         get {

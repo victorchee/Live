@@ -1,6 +1,6 @@
 //
 //  RTMPMuxer.swift
-//  Live
+//  RTMP
 //
 //  Created by VictorChee on 2016/12/22.
 //  Copyright © 2016年 VictorChee. All rights reserved.
@@ -9,16 +9,16 @@
 import Foundation
 import AVFoundation
 
-protocol RTMPMuxerDelegate: class {
+public protocol RTMPMuxerDelegate: class {
     func sampleOutput(audio buffer: Data, timestamp: Double)
     func sampleOutput(video buffer: Data, timestamp: Double)
 }
 
-class RTMPMuxer {
+open class RTMPMuxer {
     fileprivate var previousDts = kCMTimeZero
     fileprivate var audioTimestamp = kCMTimeZero
     
-    weak var delegate: RTMPMuxerDelegate?
+    weak open var delegate: RTMPMuxerDelegate?
     /* AVC Sequence Packet
      * @see http://www.adobe.com/content/dam/Adobe/en/devnet/flv/pdfs/video_file_format_spec_v10.pdf
      * - seealso: http://billhoo.blog.51cto.com/2337751/1557646
@@ -49,14 +49,14 @@ class RTMPMuxer {
         return buffer
     }
     
-    func muxAVCFormatDescription(formatDescription: CMFormatDescription?) {
+    open func muxAVCFormatDescription(formatDescription: CMFormatDescription?) {
         guard let formatDescription = formatDescription else { return }
         guard let AVCSequenceHeader = createAVCSequenceHeader(formatDescription: formatDescription) else { return }
         delegate?.sampleOutput(video: AVCSequenceHeader, timestamp: 0)
     }
     
     /// 视频数据包
-    func muxAVCSampleBuffer(sampleBuffer: CMSampleBuffer) {
+    open func muxAVCSampleBuffer(sampleBuffer: CMSampleBuffer) {
         guard let block = CMSampleBufferGetDataBuffer(sampleBuffer) else { return }
         let isKeyFrame = !CFDictionaryContainsKey(unsafeBitCast(CFArrayGetValueAtIndex(CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, true), 0), to: CFDictionary.self), unsafeBitCast(kCMSampleAttachmentKey_NotSync, to: UnsafeRawPointer.self))
         // 判断当前帧是否为关键帧 获取sps & pps 数据
@@ -93,7 +93,7 @@ class RTMPMuxer {
     }
     
     /// 音频数据包
-    func muxAACSampleBuffer(sampleBuffer: CMSampleBuffer?) {
+    open func muxAACSampleBuffer(sampleBuffer: CMSampleBuffer?) {
         guard let sampleBuffer = sampleBuffer else { return }
         var block: CMBlockBuffer?
         var audioBufferList = AudioBufferList()
@@ -115,7 +115,7 @@ class RTMPMuxer {
     }
     
     /// 音频同步包
-    func muxAACFormatDescription(formatDescription: CMFormatDescription?) {
+    open func muxAACFormatDescription(formatDescription: CMFormatDescription?) {
         guard let formatDescription = formatDescription else { return }
         var buffer = Data()
         let configuration = AudioSpecificConfiguration(formatDescription: formatDescription).bytes

@@ -109,7 +109,7 @@
 		F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCEncoder.swift; sourceTree = "<group>"; };
 		F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSpecificConfiguration.swift; sourceTree = "<group>"; };
 		F05E78AD1E6061840085AAD3 /* FLV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLV.swift; sourceTree = "<group>"; };
-		F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPMuxer.swift; sourceTree = "<group>"; };
+		F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RTMPMuxer.swift; path = ../Live/RTMPMuxer.swift; sourceTree = "<group>"; };
 		F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePublishClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,7 +172,6 @@
 				F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */,
 				F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */,
 				F05E78AD1E6061840085AAD3 /* FLV.swift */,
-				F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */,
 				F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */,
 				F05E78371E5DB6510085AAD3 /* Main.storyboard */,
 				F05E783A1E5DB6510085AAD3 /* Assets.xcassets */,
@@ -186,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				F05E786F1E5DBAFB0085AAD3 /* RTMP.h */,
+				F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */,
 				F05E78911E60616D0085AAD3 /* RTMPSocket.swift */,
 				F05E78921E60616D0085AAD3 /* RTMPChunk.swift */,
 				F05E78931E60616D0085AAD3 /* RTMPMessage.swift */,
