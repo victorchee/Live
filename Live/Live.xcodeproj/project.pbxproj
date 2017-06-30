@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F2FF3C21F0621A40066AAAB /* Capture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2FF3B91F0621A40066AAAB /* Capture.framework */; };
+		1F2FF3C91F0621A40066AAAB /* CaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2FF3C81F0621A40066AAAB /* CaptureTests.swift */; };
+		1F2FF3CB1F0621A40066AAAB /* Capture.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F2FF3BB1F0621A40066AAAB /* Capture.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1F2FF3CE1F0621A40066AAAB /* Capture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2FF3B91F0621A40066AAAB /* Capture.framework */; };
+		1F2FF3CF1F0621A40066AAAB /* Capture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2FF3B91F0621A40066AAAB /* Capture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F05E78341E5DB6510085AAD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78331E5DB6510085AAD3 /* AppDelegate.swift */; };
 		F05E78361E5DB6510085AAD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78351E5DB6510085AAD3 /* ViewController.swift */; };
 		F05E78391E5DB6510085AAD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F05E78371E5DB6510085AAD3 /* Main.storyboard */; };
@@ -40,6 +45,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1F2FF3C31F0621A40066AAAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F05E78281E5DB6500085AAD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F2FF3B81F0621A40066AAAB;
+			remoteInfo = Capture;
+		};
+		1F2FF3C51F0621A40066AAAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F05E78281E5DB6500085AAD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F05E782F1E5DB6500085AAD3;
+			remoteInfo = Live;
+		};
+		1F2FF3CC1F0621A40066AAAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F05E78281E5DB6500085AAD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F2FF3B81F0621A40066AAAB;
+			remoteInfo = Capture;
+		};
 		F05E78771E5DBAFB0085AAD3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F05E78281E5DB6500085AAD3 /* Project object */;
@@ -71,6 +97,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F05E78831E5DBAFB0085AAD3 /* RTMP.framework in Embed Frameworks */,
+				1F2FF3CF1F0621A40066AAAB /* Capture.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,6 +105,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F2FF3B91F0621A40066AAAB /* Capture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Capture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F2FF3BB1F0621A40066AAAB /* Capture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
+		1F2FF3BC1F0621A40066AAAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F2FF3C11F0621A40066AAAB /* CaptureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CaptureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F2FF3C81F0621A40066AAAB /* CaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureTests.swift; sourceTree = "<group>"; };
+		1F2FF3CA1F0621A40066AAAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F05E78301E5DB6510085AAD3 /* Live.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Live.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F05E78331E5DB6510085AAD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F05E78351E5DB6510085AAD3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,23 +135,39 @@
 		F05E78991E60616D0085AAD3 /* RTMPConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPConnector.swift; sourceTree = "<group>"; };
 		F05E789A1E60616D0085AAD3 /* RTMPReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPReceiver.swift; sourceTree = "<group>"; };
 		F05E789B1E60616D0085AAD3 /* Amf0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amf0.swift; sourceTree = "<group>"; };
-		F05E78A71E6061840085AAD3 /* AudioCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCapture.swift; sourceTree = "<group>"; };
-		F05E78A81E6061840085AAD3 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
-		F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewView.swift; sourceTree = "<group>"; };
-		F05E78AA1E6061840085AAD3 /* AACEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACEncoder.swift; sourceTree = "<group>"; };
-		F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCEncoder.swift; sourceTree = "<group>"; };
-		F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSpecificConfiguration.swift; sourceTree = "<group>"; };
+		F05E78A71E6061840085AAD3 /* AudioCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioCapture.swift; path = ../Live/AudioCapture.swift; sourceTree = "<group>"; };
+		F05E78A81E6061840085AAD3 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoCapture.swift; path = ../Live/VideoCapture.swift; sourceTree = "<group>"; };
+		F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPreviewView.swift; path = ../Live/VideoPreviewView.swift; sourceTree = "<group>"; };
+		F05E78AA1E6061840085AAD3 /* AACEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AACEncoder.swift; path = ../Live/AACEncoder.swift; sourceTree = "<group>"; };
+		F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVCEncoder.swift; path = ../Live/AVCEncoder.swift; sourceTree = "<group>"; };
+		F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioSpecificConfiguration.swift; path = ../Live/AudioSpecificConfiguration.swift; sourceTree = "<group>"; };
 		F05E78AD1E6061840085AAD3 /* FLV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FLV.swift; path = ../Live/FLV.swift; sourceTree = "<group>"; };
 		F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RTMPMuxer.swift; path = ../Live/RTMPMuxer.swift; sourceTree = "<group>"; };
 		F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePublishClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1F2FF3B51F0621A40066AAAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F2FF3BE1F0621A40066AAAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F2FF3C21F0621A40066AAAB /* Capture.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F05E782D1E5DB6500085AAD3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F05E78821E5DBAFB0085AAD3 /* RTMP.framework in Frameworks */,
+				1F2FF3CE1F0621A40066AAAB /* Capture.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,12 +189,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F2FF3BA1F0621A40066AAAB /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				1F2FF3BB1F0621A40066AAAB /* Capture.h */,
+				F05E78A71E6061840085AAD3 /* AudioCapture.swift */,
+				F05E78A81E6061840085AAD3 /* VideoCapture.swift */,
+				F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */,
+				F05E78AA1E6061840085AAD3 /* AACEncoder.swift */,
+				F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */,
+				F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */,
+				1F2FF3BC1F0621A40066AAAB /* Info.plist */,
+			);
+			path = Capture;
+			sourceTree = "<group>";
+		};
+		1F2FF3C71F0621A40066AAAB /* CaptureTests */ = {
+			isa = PBXGroup;
+			children = (
+				1F2FF3C81F0621A40066AAAB /* CaptureTests.swift */,
+				1F2FF3CA1F0621A40066AAAB /* Info.plist */,
+			);
+			path = CaptureTests;
+			sourceTree = "<group>";
+		};
 		F05E78271E5DB6500085AAD3 = {
 			isa = PBXGroup;
 			children = (
 				F05E78321E5DB6510085AAD3 /* Live */,
 				F05E786E1E5DBAFB0085AAD3 /* RTMP */,
 				F05E787B1E5DBAFB0085AAD3 /* RTMPTests */,
+				1F2FF3BA1F0621A40066AAAB /* Capture */,
+				1F2FF3C71F0621A40066AAAB /* CaptureTests */,
 				F05E78311E5DB6510085AAD3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -156,6 +231,8 @@
 				F05E78301E5DB6510085AAD3 /* Live.app */,
 				F05E786D1E5DBAFB0085AAD3 /* RTMP.framework */,
 				F05E78751E5DBAFB0085AAD3 /* RTMPTests.xctest */,
+				1F2FF3B91F0621A40066AAAB /* Capture.framework */,
+				1F2FF3C11F0621A40066AAAB /* CaptureTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,12 +242,6 @@
 			children = (
 				F05E78331E5DB6510085AAD3 /* AppDelegate.swift */,
 				F05E78351E5DB6510085AAD3 /* ViewController.swift */,
-				F05E78A71E6061840085AAD3 /* AudioCapture.swift */,
-				F05E78A81E6061840085AAD3 /* VideoCapture.swift */,
-				F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */,
-				F05E78AA1E6061840085AAD3 /* AACEncoder.swift */,
-				F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */,
-				F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */,
 				F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */,
 				F05E78371E5DB6510085AAD3 /* Main.storyboard */,
 				F05E783A1E5DB6510085AAD3 /* Assets.xcassets */,
@@ -214,6 +285,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		1F2FF3B61F0621A40066AAAB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F2FF3CB1F0621A40066AAAB /* Capture.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F05E786A1E5DBAFB0085AAD3 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -225,6 +304,43 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1F2FF3B81F0621A40066AAAB /* Capture */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F2FF3D41F0621A50066AAAB /* Build configuration list for PBXNativeTarget "Capture" */;
+			buildPhases = (
+				1F2FF3B41F0621A40066AAAB /* Sources */,
+				1F2FF3B51F0621A40066AAAB /* Frameworks */,
+				1F2FF3B61F0621A40066AAAB /* Headers */,
+				1F2FF3B71F0621A40066AAAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Capture;
+			productName = Capture;
+			productReference = 1F2FF3B91F0621A40066AAAB /* Capture.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		1F2FF3C01F0621A40066AAAB /* CaptureTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F2FF3D51F0621A50066AAAB /* Build configuration list for PBXNativeTarget "CaptureTests" */;
+			buildPhases = (
+				1F2FF3BD1F0621A40066AAAB /* Sources */,
+				1F2FF3BE1F0621A40066AAAB /* Frameworks */,
+				1F2FF3BF1F0621A40066AAAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F2FF3C41F0621A40066AAAB /* PBXTargetDependency */,
+				1F2FF3C61F0621A40066AAAB /* PBXTargetDependency */,
+			);
+			name = CaptureTests;
+			productName = CaptureTests;
+			productReference = 1F2FF3C11F0621A40066AAAB /* CaptureTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F05E782F1E5DB6500085AAD3 /* Live */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F05E78421E5DB6510085AAD3 /* Build configuration list for PBXNativeTarget "Live" */;
@@ -238,6 +354,7 @@
 			);
 			dependencies = (
 				F05E78811E5DBAFB0085AAD3 /* PBXTargetDependency */,
+				1F2FF3CD1F0621A40066AAAB /* PBXTargetDependency */,
 			);
 			name = Live;
 			productName = Live;
@@ -287,10 +404,20 @@
 		F05E78281E5DB6500085AAD3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = VictorChee;
 				TargetAttributes = {
+					1F2FF3B81F0621A40066AAAB = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 8F4GU35MC5;
+						ProvisioningStyle = Automatic;
+					};
+					1F2FF3C01F0621A40066AAAB = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = F05E782F1E5DB6500085AAD3;
+					};
 					F05E782F1E5DB6500085AAD3 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 8F4GU35MC5;
@@ -324,11 +451,27 @@
 				F05E782F1E5DB6500085AAD3 /* Live */,
 				F05E786C1E5DBAFB0085AAD3 /* RTMP */,
 				F05E78741E5DBAFB0085AAD3 /* RTMPTests */,
+				1F2FF3B81F0621A40066AAAB /* Capture */,
+				1F2FF3C01F0621A40066AAAB /* CaptureTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1F2FF3B71F0621A40066AAAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F2FF3BF1F0621A40066AAAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F05E782E1E5DB6500085AAD3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -356,6 +499,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1F2FF3B41F0621A40066AAAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F2FF3BD1F0621A40066AAAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F2FF3C91F0621A40066AAAB /* CaptureTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F05E782C1E5DB6500085AAD3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -403,6 +561,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1F2FF3C41F0621A40066AAAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F2FF3B81F0621A40066AAAB /* Capture */;
+			targetProxy = 1F2FF3C31F0621A40066AAAB /* PBXContainerItemProxy */;
+		};
+		1F2FF3C61F0621A40066AAAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F05E782F1E5DB6500085AAD3 /* Live */;
+			targetProxy = 1F2FF3C51F0621A40066AAAB /* PBXContainerItemProxy */;
+		};
+		1F2FF3CD1F0621A40066AAAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F2FF3B81F0621A40066AAAB /* Capture */;
+			targetProxy = 1F2FF3CC1F0621A40066AAAB /* PBXContainerItemProxy */;
+		};
 		F05E78781E5DBAFB0085AAD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F05E786C1E5DBAFB0085AAD3 /* RTMP */;
@@ -440,6 +613,84 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1F2FF3D01F0621A40066AAAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8F4GU35MC5;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Capture/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.Capture;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		1F2FF3D11F0621A40066AAAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8F4GU35MC5;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Capture/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.Capture;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		1F2FF3D21F0621A50066AAAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				INFOPLIST_FILE = CaptureTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.CaptureTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Live.app/Live";
+			};
+			name = Debug;
+		};
+		1F2FF3D31F0621A50066AAAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				INFOPLIST_FILE = CaptureTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.CaptureTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Live.app/Live";
+			};
+			name = Release;
+		};
 		F05E78401E5DB6510085AAD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -635,6 +886,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1F2FF3D41F0621A50066AAAB /* Build configuration list for PBXNativeTarget "Capture" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F2FF3D01F0621A40066AAAB /* Debug */,
+				1F2FF3D11F0621A40066AAAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1F2FF3D51F0621A50066AAAB /* Build configuration list for PBXNativeTarget "CaptureTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F2FF3D21F0621A50066AAAB /* Debug */,
+				1F2FF3D31F0621A50066AAAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		F05E782B1E5DB6500085AAD3 /* Build configuration list for PBXProject "Live" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

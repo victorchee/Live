@@ -69,7 +69,6 @@ final class RTMPChunk {
     
     /// Split message into chunks
     class func splitMessage(_ message: RTMPMessage, chunkSize: Int, chunkType: ChunkType, chunkStreamID: UInt16) -> [UInt8]? {
-        print(chunkType);
         var buffer = [UInt8]()
         
         // Basic header

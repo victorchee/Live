@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import RTMP
+import Capture
 
 class LivePublishClient: NSObject {
     fileprivate let publishClientQueue = DispatchQueue(label: "LivePublishClientQueue")
