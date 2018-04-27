@@ -30,8 +30,8 @@ final class AudioCapture: NSObject {
         
         captureOutput = AVCaptureAudioDataOutput()
         captureOutput!.setSampleBufferDelegate(self, queue: captureQueue)
-        if session.canAddOutput(captureOutput) {
-            session.addOutput(captureOutput)
+        if session.canAddOutput(captureOutput!) {
+            session.addOutput(captureOutput!)
         }
     }
     
@@ -42,10 +42,10 @@ final class AudioCapture: NSObject {
         }
         
         do {
-            let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
-            captureInput = try AVCaptureDeviceInput(device: device)
-            if session.canAddInput(captureInput) {
-                session.addInput(captureInput)
+            let device = AVCaptureDevice.default(for: AVMediaType.audio)
+            captureInput = try AVCaptureDeviceInput(device: device!)
+            if session.canAddInput(captureInput!) {
+                session.addInput(captureInput!)
             }
         } catch {
             print("Audio Capture Input Error: \(error)")
@@ -67,7 +67,7 @@ final class AudioCapture: NSObject {
 extension AudioCapture: AVCaptureAudioDataOutputSampleBufferDelegate {
     typealias OutputHandler = (_ sampleBuffer: CMSampleBuffer) -> Void
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         self.outputHandler?(sampleBuffer) // 未编码的PCM数据
     }
 }

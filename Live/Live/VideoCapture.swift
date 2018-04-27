@@ -36,7 +36,7 @@ final class VideoCapture: NSObject {
             connection.videoOrientation = videoOrientation
         }
         
-        if let output = captureOutput, let connection = output.connection(withMediaType: AVMediaTypeVideo), connection.isVideoOrientationSupported {
+        if let output = captureOutput, let connection = output.connection(with: AVMediaType.video), connection.isVideoOrientationSupported {
             connection.videoOrientation = videoOrientation
         }
     }
@@ -55,8 +55,8 @@ final class VideoCapture: NSObject {
         captureOutput!.alwaysDiscardsLateVideoFrames = true
         captureOutput!.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as String): NSNumber(value: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
         captureOutput!.setSampleBufferDelegate(self, queue: captureQueue)
-        if session.canAddOutput(captureOutput) {
-            session.addOutput(captureOutput)
+        if session.canAddOutput(captureOutput!) {
+            session.addOutput(captureOutput!)
         }
         
         for connection in captureOutput!.connections {
@@ -74,10 +74,10 @@ final class VideoCapture: NSObject {
         }
         
         do {
-            let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-            captureInput = try AVCaptureDeviceInput(device: device)
-            if session.canAddInput(captureInput) {
-                session.addInput(captureInput)
+            let device = AVCaptureDevice.default(for: AVMediaType.video)
+            captureInput = try AVCaptureDeviceInput(device: device!)
+            if session.canAddInput(captureInput!) {
+                session.addInput(captureInput!)
             }
         } catch {
             print("Video Capture Input Error: \(error)")
@@ -87,8 +87,8 @@ final class VideoCapture: NSObject {
     fileprivate func configureSession() {
         guard let session = self.session else { return }
         session.beginConfiguration()
-        if session.canSetSessionPreset(AVCaptureSessionPreset1280x720) {
-            session.sessionPreset = AVCaptureSessionPreset1280x720
+        if session.canSetSessionPreset(AVCaptureSession.Preset.hd1280x720) {
+            session.sessionPreset = AVCaptureSession.Preset.hd1280x720
         }
         session.commitConfiguration()
     }
@@ -111,7 +111,7 @@ final class VideoCapture: NSObject {
 extension VideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
     typealias OutputHandler = (_ sampleBuffer: CMSampleBuffer) -> Void
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         self.outputHandler?(sampleBuffer) // 未编码的数据
     }
 }

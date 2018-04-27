@@ -180,7 +180,7 @@ class Amf0String: Amf0Data {
             guard super.dataInBytes.isEmpty else {
                 return super.dataInBytes
             }
-            let isLongString = UInt32(value.characters.count) > UInt32(UInt16.max)
+            let isLongString = UInt32(value.count) > UInt32(UInt16.max)
             // 1B type
             super.dataInBytes.append(isLongString ? Amf0DataType.Amf0_LongString.rawValue : Amf0DataType.Amf0_String.rawValue)
             let stringInBytes = [UInt8](value.utf8)
