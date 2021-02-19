@@ -2,7 +2,7 @@
 //  CaptureTests.swift
 //  CaptureTests
 //
-//  Created by Migu on 2017/6/30.
+//  Created by VictorChee on 2017/6/30.
 //  Copyright © 2017年 VictorChee. All rights reserved.
 //
 
